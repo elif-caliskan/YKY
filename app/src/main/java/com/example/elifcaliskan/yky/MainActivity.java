@@ -9,9 +9,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList<String> bookUrls= new ArrayList<String>();
+    ArrayList<String> bookNames=new ArrayList<String>();
 
 
     public class DownloadTask extends AsyncTask<String,Void,String>{
@@ -49,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             catch (Exception e){
 
                 e.printStackTrace();
-                Log.i("sorun","burada");
             }
             return null;
         }
@@ -67,9 +72,24 @@ public class MainActivity extends AppCompatActivity {
         try {
             result = task.execute("http://kitap.ykykultur.com.tr/kitaplar/100-temel-eserde-yky-kitaplari").get();
             Log.i("Contents of URL",result);
+            String[] splitResult1 = result.split("ESERDE YKY KİTAPLARI</a></li>");
+            String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
+
+            Pattern p= Pattern.compile("src=\"(.*?)\"");
+            Matcher m=p.matcher(splitResult[0]);
+
+            while(m.find()){
+                bookUrls.add(m.group(1));
+            }
+            p= Pattern.compile("alt=\"(.*?)\"");
+            m=p.matcher(splitResult[0]);
+
+            while(m.find()){
+                bookNames.add(m.group(1));
+            }
+
         } catch (Exception e){
             e.printStackTrace();
-            Log.i("sorun","olmadı");
         }
     }
 
