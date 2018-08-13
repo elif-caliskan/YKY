@@ -10,13 +10,16 @@
     <LinearLayout  android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
 
         >
 
         <ImageView
             android:id="@+id/list_item_icon"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
+            android:layout_width="120dp"
+            android:layout_height="@dimen/list_item_height"
+            android:scaleType="centerCrop"
 
             />
         <LinearLayout
@@ -34,7 +37,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
-                android:textAppearance="?android:textAppearanceMedium"
+                android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 tools:text="bookName" />
@@ -42,7 +45,7 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="@dimen/list_item_height"
         android:background="?android:selectableItemBackground">
     </View>
 </RelativeLayout>
