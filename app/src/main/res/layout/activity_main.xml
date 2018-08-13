@@ -6,16 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/myListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/bookButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
-    </LinearLayout>
-
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
