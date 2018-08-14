@@ -30,8 +30,10 @@
             android:id="@+id/textContainer"
             >
 
+
+
             <TextView
-                android:id="@+id/list_item_text"
+                android:id="@+id/list_item_name"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -41,6 +43,18 @@
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 tools:text="bookName" />
+
+            <TextView
+                android:id="@+id/list_item_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="bottom"
+                android:text="TextView"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:paddingBottom="30dp"
+                android:paddingRight="20dp"
+                />
         </LinearLayout>
     </LinearLayout>
     <View

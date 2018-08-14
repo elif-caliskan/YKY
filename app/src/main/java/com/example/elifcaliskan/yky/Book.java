@@ -1,13 +1,22 @@
 package com.example.elifcaliskan.yky;
 
-import android.widget.ArrayAdapter;
-
 public class Book {
     String bookName;
     String bookURL;
-    public Book(String bookName,String bookURL){
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    String author;
+    public Book(String bookName,String bookURL,String author){
         this.bookName=bookName;
         this.bookURL=bookURL;
+        this.author=author;
     }
 
     public String getBookName() {

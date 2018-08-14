@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -18,7 +17,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -83,9 +81,14 @@ public class BookAdapter extends ArrayAdapter<Book> {
             iconView.setVisibility(View.VISIBLE);
 
 
-            TextView defaultTextView = (TextView) listItemView.findViewById(R.id.list_item_text);
+            TextView defaultTextView = (TextView) listItemView.findViewById(R.id.list_item_name);
 
             defaultTextView.setText(currentWordAdapter.getBookName());
+
+            TextView defaultTextView1 = (TextView) listItemView.findViewById(R.id.list_item_author);
+
+            defaultTextView1.setText(currentWordAdapter.getAuthor());
+
 
             //Set the theme color for the list item
             View textContainer = listItemView.findViewById(R.id.textContainer);

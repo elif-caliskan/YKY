@@ -25,6 +25,7 @@ public class ListActivity extends AppCompatActivity {
     String url;
     ArrayList<String> bookUrls= new ArrayList<String>();
     ArrayList<String> bookNames=new ArrayList<String>();
+    ArrayList<String> authors=new ArrayList<String>();
 
 
     public class DownloadTask extends AsyncTask<String,Void,String>{
@@ -83,7 +84,7 @@ public class ListActivity extends AppCompatActivity {
         try {
             result = task.execute(url).get();
             Log.i("Contents of URL", result);
-            String[] splitResult1 = result.split("YKY Kitapları\">100 Temel Eserde YKY Kitapları</a></li>");
+            String[] splitResult1 = result.split("100 TEMEL ESERDE YKY KİTAPLARI</a></li>");
             String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
 
             Pattern p = Pattern.compile("src=\"(.*?)\"");
@@ -92,14 +93,20 @@ public class ListActivity extends AppCompatActivity {
             while (m.find()) {
                 bookUrls.add(m.group(1));
             }
-            p = Pattern.compile("alt=\"(.*?)\"");
+            p = Pattern.compile("<h2>(.*?)</h2>");
             m = p.matcher(splitResult[0]);
 
             while (m.find()) {
                 bookNames.add(m.group(1));
             }
+            p = Pattern.compile("<h3>(.*?)</h3>");
+            m = p.matcher(splitResult[0]);
+
+            while (m.find()) {
+                authors.add(m.group(1));
+            }
             for (int i = 0; i < bookNames.size(); i++) {
-                books.add(new Book(bookNames.get(i), bookUrls.get(i)));
+                books.add(new Book(bookNames.get(i), bookUrls.get(i),authors.get(i)));
             }
 
         } catch (InterruptedException e) {
