@@ -29,7 +29,20 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<String> bookNames=new ArrayList<String>();
     ArrayList<String> authors=new ArrayList<String>();
     Map<String,String> letterMap=new HashMap<String, String>();
-
+    public String converter(String word){
+        while(word!=null&&word.contains("&#")){
+            int index=word.indexOf("&#");
+            String code=word.substring(index,index+5);
+            if(code.contains(";")){
+                word=word.replace(code,letterMap.get(code));
+            }
+            else{
+                word=word.replace(code+";",letterMap.get(code+";"));
+            }
+            
+        }
+        return word;
+    }
 
 
     public class DownloadTask extends AsyncTask<String,Void,String>{
@@ -37,7 +50,21 @@ public class ListActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-            Log.i("nerede","5");
+            letterMap.put("&#305;","ı");
+            letterMap.put("&#231;","ç");
+            letterMap.put("&#351;","ş");
+            letterMap.put("&#246;","ö");
+            letterMap.put("&#252;","ü");
+            letterMap.put("&#287;","ğ");
+            letterMap.put("&#304;","I");
+            letterMap.put("&#199;","Ç");
+            letterMap.put("&#350;","Ş");
+            letterMap.put("&#214;","Ö");
+            letterMap.put("&#220;","Ü");
+            letterMap.put("&#286;","Ğ");
+            letterMap.put("&#226;","â");
+            letterMap.put("&#39;","'");
+
             String result = "";
             URL url;
             HttpURLConnection urlConnection = null;
@@ -65,7 +92,6 @@ public class ListActivity extends AppCompatActivity {
                 return result;
             }
             catch (Exception e){
-                Log.i("nerede","4");
                 e.printStackTrace();
             }
             return null;
@@ -74,29 +100,15 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        letterMap.put("&305","ı");
-        letterMap.put("&231","ç");
-        letterMap.put("&351","ş");
-        letterMap.put("&246","ö");
-        letterMap.put("&252","ü");
-        letterMap.put("&287","ğ");
-        letterMap.put("&304","I");
-        letterMap.put("&199","Ç");
-        letterMap.put("&350","Ş");
-        letterMap.put("&214","Ö");
-        letterMap.put("&220","Ü");
-        letterMap.put("&286","Ğ");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books_list);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        Log.i("gelen url", url);
         final ArrayList<Book> books = new ArrayList<Book>();
 
         DownloadTask task = new DownloadTask();
         String result;
-        Log.i("nerede", "3");
         try {
             result = task.execute(url).get();
             Log.i("Contents of URL", result);
@@ -113,13 +125,17 @@ public class ListActivity extends AppCompatActivity {
             m = p.matcher(splitResult[0]);
 
             while (m.find()) {
-                bookNames.add(m.group(1));
+                String name =converter(m.group(1));
+                bookNames.add(name);
+
             }
             p = Pattern.compile("<h3>(.*?)</h3>");
             m = p.matcher(splitResult[0]);
 
             while (m.find()) {
-                authors.add(m.group(1));
+                String name =converter(m.group(1));
+                authors.add(name);
+
             }
             for (int i = 0; i < bookNames.size(); i++) {
                 books.add(new Book(bookNames.get(i), bookUrls.get(i),authors.get(i)));
@@ -134,4 +150,5 @@ public class ListActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.book_list);
         listView.setAdapter(adapter);
     }
+
 }
