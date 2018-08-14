@@ -39,7 +39,7 @@ public class ListActivity extends AppCompatActivity {
             else{
                 word=word.replace(code+";",letterMap.get(code+";"));
             }
-            
+
         }
         return word;
     }
