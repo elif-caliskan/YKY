@@ -6,48 +6,13 @@
     android:alpha="1"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <LinearLayout  android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp"
-        >
 
-        <ImageView
-            android:id="@+id/category_icon"
-            android:layout_width="60dp"
-            android:layout_height="@dimen/list_item1_height"
-            android:scaleType="fitCenter"
-
-
-            app:srcCompat="@drawable/rocket" />
-        <LinearLayout
-            android:layout_width="@dimen/list_item1_height"
-            android:layout_height="@dimen/list_item1_height"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:id="@+id/textContainer"
-            >
-
-            <TextView
-                android:id="@+id/list_item_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                tools:text="category" />
-
-        </LinearLayout>
-    </LinearLayout>
-    <View
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item1_height"
-        android:background="?android:selectableItemBackground">
-    </View>
+        android:text="TextView"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textSize="20sp"/>
 </RelativeLayout>

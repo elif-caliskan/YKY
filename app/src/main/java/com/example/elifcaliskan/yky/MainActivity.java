@@ -19,12 +19,12 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        categories.add(new Category("A-Z"));
-        categories.add(new Category("KONU DİZİNİ"));
-        categories.add(new Category("TEKRAR BASIMLAR"));
-        categories.add(new Category("YENİ ÇIKANLAR"));
-        categories.add(new Category("ÇOK SATANLAR"));
-        categories.add(new Category("100 TEMEL ESERDE YKY KİTAPLARI"));
+        categories.add(new Category("A-Z",R.color.darkBlue));
+        categories.add(new Category("KONU DİZİNİ",R.color.darkerBlue2));
+        categories.add(new Category("TEKRAR BASIMLAR",R.color.darkerBlue));
+        categories.add(new Category("YENİ ÇIKANLAR",R.color.blue));
+        categories.add(new Category("ÇOK SATANLAR",R.color.lightBlue));
+        categories.add(new Category("100 TEMEL ESERDE YKY KİTAPLARI",R.color.lightestBlue));
 
         ListView listView = (ListView) findViewById(R.id.list);
         CategoryAdapter arrayAdapter = new CategoryAdapter(this, categories);

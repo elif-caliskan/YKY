@@ -1,11 +1,11 @@
 package com.example.elifcaliskan.yky;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,20 +27,16 @@ public class CategoryAdapter extends ArrayAdapter<Category>{
         }
 
         Category currentWordAdapter = getItem(position);
-        ImageView iconView = (ImageView) listItemView.findViewById(R.id.category_icon);
-
-        String categoryName = currentWordAdapter.getCategoryName();
-
-        iconView.setImageResource(R.drawable.rocket);
-        iconView.setVisibility(View.VISIBLE);
 
 
-        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.list_item_category);
+        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.textView);
 
         defaultTextView.setText(currentWordAdapter.getCategoryName());
 
        //Set the theme color for the list item
-        View textContainer = listItemView.findViewById(R.id.textContainer);
+        View textContainer = listItemView.findViewById(R.id.textView);
+        textContainer.setBackgroundColor(ContextCompat.getColor(getContext(), currentWordAdapter.categoryColor));
+
         // View playbutton = listItemView.findViewById(R.id.playicon);
         //Set Background color to the color the resource Id maps to
 

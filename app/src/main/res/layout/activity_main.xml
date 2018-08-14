@@ -6,12 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.elifcaliskan.yky.MainActivity">
+    tools:context="com.example.elifcaliskan.yky.MainActivity"
+    >
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sea" />
+        />
 </LinearLayout>
 

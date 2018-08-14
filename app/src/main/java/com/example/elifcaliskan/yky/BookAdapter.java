@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,10 +90,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
 
             //Set the theme color for the list item
-            View textContainer = listItemView.findViewById(R.id.textContainer);
+            //View textContainer = listItemView.findViewById(R.id.textContainer);
            // View playbutton = listItemView.findViewById(R.id.playicon);
             //Set Background color to the color the resource Id maps to
-            textContainer.setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
+            //textContainer.setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
            // playbutton.setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
 
 
