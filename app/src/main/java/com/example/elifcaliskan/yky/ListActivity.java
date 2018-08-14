@@ -14,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +28,8 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<String> bookUrls= new ArrayList<String>();
     ArrayList<String> bookNames=new ArrayList<String>();
     ArrayList<String> authors=new ArrayList<String>();
+    Map<String,String> letterMap=new HashMap<String, String>();
+
 
 
     public class DownloadTask extends AsyncTask<String,Void,String>{
@@ -70,6 +74,18 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        letterMap.put("&305","ı");
+        letterMap.put("&231","ç");
+        letterMap.put("&351","ş");
+        letterMap.put("&246","ö");
+        letterMap.put("&252","ü");
+        letterMap.put("&287","ğ");
+        letterMap.put("&304","I");
+        letterMap.put("&199","Ç");
+        letterMap.put("&350","Ş");
+        letterMap.put("&214","Ö");
+        letterMap.put("&220","Ü");
+        letterMap.put("&286","Ğ");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books_list);
