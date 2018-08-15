@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res/com.example.elifcaliskan.yky"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,12 +9,13 @@
     android:padding="10dp"
     >
 
-    <TextView
-        android:id="@+id/textView"
+    <com.example.elifcaliskan.yky.LovelyView
+        android:id="@+id/custView"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_item1_height"
-        android:text="TextView"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:textSize="22sp"/>
+        android:layout_height="60dp"
+        custom:containerColor="#ff0099"
+        custom:containerLabel="Hello"
+        custom:labelColor="@android:color/black" />
+    />
+
 </RelativeLayout>

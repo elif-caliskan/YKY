@@ -24,6 +24,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     ImageView downloadedImg;
     int mColorResourceId;
+
     public BookAdapter(Activity context, ArrayList<Book> books, int ColorResourceId){
             super(context, 0, books);
             mColorResourceId = ColorResourceId;

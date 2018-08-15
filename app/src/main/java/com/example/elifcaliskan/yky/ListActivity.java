@@ -171,6 +171,7 @@ public class ListActivity extends AppCompatActivity {
         }
         adapter = new BookAdapter(this, books, color);
         ListView listView = (ListView) findViewById(R.id.book_list);
+
         //listView.setBackgroundColor(color);
         listView.setAdapter(adapter);
 

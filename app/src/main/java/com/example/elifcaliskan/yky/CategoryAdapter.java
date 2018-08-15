@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,13 +28,15 @@ public class CategoryAdapter extends ArrayAdapter<Category>{
         Category currentWordAdapter = getItem(position);
 
 
-        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.textView);
+        LovelyView lovelyView = (LovelyView)listItemView.findViewById(R.id.custView);
 
-        defaultTextView.setText(currentWordAdapter.getCategoryName());
+        lovelyView.setLabelText(currentWordAdapter.getCategoryName());
+
+        lovelyView.setR(50);
 
        //Set the theme color for the list item
-        View textContainer = listItemView.findViewById(R.id.textView);
-        textContainer.setBackgroundColor(ContextCompat.getColor(getContext(), currentWordAdapter.categoryColor));
+
+        lovelyView.setContainerColor(ContextCompat.getColor(getContext(), currentWordAdapter.categoryColor));
 
         // View playbutton = listItemView.findViewById(R.id.playicon);
         //Set Background color to the color the resource Id maps to
