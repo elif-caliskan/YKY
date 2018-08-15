@@ -88,15 +88,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
             defaultTextView1.setText(currentWordAdapter.getAuthor());
 
-
-            //Set the theme color for the list item
-            //View textContainer = listItemView.findViewById(R.id.textContainer);
-           // View playbutton = listItemView.findViewById(R.id.playicon);
-            //Set Background color to the color the resource Id maps to
-            //textContainer.setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
-           // playbutton.setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
-
-
             return listItemView;
         }
 }

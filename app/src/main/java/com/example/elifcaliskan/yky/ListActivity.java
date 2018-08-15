@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.io.InputStream;
@@ -25,7 +27,8 @@ import java.util.regex.Pattern;
 public class ListActivity extends AppCompatActivity {
     BookAdapter adapter;
     String url;
-    ArrayList<String> bookUrls= new ArrayList<String>();
+    ArrayList<String> imageUrls = new ArrayList<String>();
+    ArrayList<String> bookUrls = new ArrayList<String>();
     ArrayList<String> bookNames=new ArrayList<String>();
     ArrayList<String> authors=new ArrayList<String>();
     Map<String,String> letterMap=new HashMap<String, String>();
@@ -44,9 +47,7 @@ public class ListActivity extends AppCompatActivity {
         return word;
     }
 
-
     public class DownloadTask extends AsyncTask<String,Void,String>{
-
 
         @Override
         protected String doInBackground(String... urls) {
@@ -119,8 +120,16 @@ public class ListActivity extends AppCompatActivity {
             Matcher m = p.matcher(splitResult[0]);
 
             while (m.find()) {
-                bookUrls.add(m.group(1));
+                imageUrls.add(m.group(1));
             }
+
+            p = Pattern.compile("<a href=\"/(.*?)\" title=\"DETAY\">DETAY</a>");
+            m = p.matcher(splitResult[0]);
+
+            while (m.find()) {
+                bookUrls.add("http://kitap.ykykultur.com.tr/kitaplar/"+m.group(1));
+            }
+
             p = Pattern.compile("<h2>(.*?)</h2>");
             m = p.matcher(splitResult[0]);
 
@@ -138,7 +147,7 @@ public class ListActivity extends AppCompatActivity {
 
             }
             for (int i = 0; i < bookNames.size(); i++) {
-                books.add(new Book(bookNames.get(i), bookUrls.get(i),authors.get(i)));
+                books.add(new Book(bookNames.get(i), imageUrls.get(i),authors.get(i)));
             }
 
         } catch (InterruptedException e) {
@@ -149,6 +158,19 @@ public class ListActivity extends AppCompatActivity {
         adapter = new BookAdapter(this, books, R.color.darkBlue);
         ListView listView = (ListView) findViewById(R.id.book_list);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ListActivity.this, ListActivity.class);
+                intent.putExtra("bookName",bookNames.get(position));
+                intent.putExtra("imageUrl", imageUrls.get(position));
+                intent.putExtra("authorName",authors.get(position));
+                intent.putExtra("bookUrl",bookUrls.get(position));
+
+                startActivity(intent);
+            }
+        });
     }
 
 }

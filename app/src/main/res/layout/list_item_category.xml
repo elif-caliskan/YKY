@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:alpha="1"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
     >
 
     <TextView
@@ -14,5 +15,5 @@
         android:text="TextView"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:textSize="20sp"/>
+        android:textSize="22sp"/>
 </RelativeLayout>

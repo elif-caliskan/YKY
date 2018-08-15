@@ -2,7 +2,17 @@ package com.example.elifcaliskan.yky;
 
 public class Book {
     String bookName;
-    String bookURL;
+    String imageUrl;
+    String author;
+    String bookUrl;
+
+    public String getBookUrl() {
+        return bookUrl;
+    }
+
+    public void setBookUrl(String bookUrl) {
+        this.bookUrl = bookUrl;
+    }
 
     public String getAuthor() {
         return author;
@@ -12,11 +22,12 @@ public class Book {
         this.author = author;
     }
 
-    String author;
-    public Book(String bookName,String bookURL,String author){
+
+    public Book(String bookName,String imageUrl,String author,String bookUrl){
         this.bookName=bookName;
-        this.bookURL=bookURL;
+        this.imageUrl=imageUrl;
         this.author=author;
+        this.bookUrl=bookUrl;
     }
 
     public String getBookName() {
@@ -27,11 +38,11 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public String getBookURL() {
-        return bookURL;
+    public String getImageURL() {
+        return imageUrl;
     }
 
-    public void setBookURL(String bookURL) {
-        this.bookURL = bookURL;
+    public void setImageURL(String bookURL) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/book_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book Name"
+        android:padding="20dp"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/darkBlue"/>
+    <TextView
+        android:id="@+id/book_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/book_name"
+        android:textSize="30sp"
+        android:padding="20dp"
+        android:textColor="@color/blue"/>
+
+    <TextView
+        android:id="@+id/about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/book_author"
+        android:textSize="25sp"
+        android:padding="20dp"
+        android:textColor="@color/lightBlue"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/about_book_icon_width"
+        android:layout_height="@dimen/about_book_icon_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/rocket" />
+    <TextView
+        android:id="@+id/book_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="about"
+        android:layout_below="@id/imageView"
+        android:padding="20dp"
+        android:textSize="15sp"/>
+
+
+
+</RelativeLayout>
