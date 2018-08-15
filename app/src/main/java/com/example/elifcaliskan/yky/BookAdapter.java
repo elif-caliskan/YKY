@@ -66,9 +66,12 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
 
             View listItemView = convertView;
+
+
             if (listItemView == null) {
                 listItemView = LayoutInflater.from(getContext()).inflate(
                         R.layout.list_item, parent, false);
+                //listItemView.setBackgroundColor(mColorResourceId);
             }
 
             Book currentWordAdapter = getItem(position);

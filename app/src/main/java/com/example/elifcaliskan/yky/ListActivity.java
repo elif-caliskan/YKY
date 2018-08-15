@@ -29,6 +29,7 @@ public class ListActivity extends AppCompatActivity {
 
     BookAdapter adapter;
     String url;
+    int color;
     ArrayList<String> imageUrls = new ArrayList<String>();
     ArrayList<String> bookUrls = new ArrayList<String>();
     ArrayList<String> bookNames=new ArrayList<String>();
@@ -117,6 +118,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.books_list);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
+        color=intent.getIntExtra("color",0);
         final ArrayList<Book> books = new ArrayList<Book>();
 
         DownloadTask task = new DownloadTask();
@@ -135,7 +137,7 @@ public class ListActivity extends AppCompatActivity {
                 imageUrls.add(m.group(1));
             }
 
-            p = Pattern.compile("<a href=\"/(.*?)\" title=\"DETAY\">DETAY</a>");
+            p = Pattern.compile("<a href=\"/(.*?)\" title=\"");
             m = p.matcher(splitResult[0]);
 
             while (m.find()) {
@@ -167,7 +169,7 @@ public class ListActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        adapter = new BookAdapter(this, books, R.color.darkBlue);
+        adapter = new BookAdapter(this, books, color);
         ListView listView = (ListView) findViewById(R.id.book_list);
         listView.setAdapter(adapter);
 

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:minHeight="@dimen/list_item_height"
     android:background="@color/lightBlue"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-    <LinearLayout  android:orientation="horizontal"
+    android:minHeight="@dimen/list_item_height">
+
+    <LinearLayout
+        android:id="@+id/list_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp">
+        android:layout_height="200dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:paddingLeft="10dp">
 
         <ImageView
             android:id="@+id/list_item_icon"
@@ -20,14 +21,13 @@
             android:scaleType="centerCrop"
 
             />
+
         <LinearLayout
+            android:id="@+id/textContainer"
             android:layout_width="@dimen/list_item_height"
             android:layout_height="@dimen/list_item_height"
-            android:orientation="vertical"
             android:layout_weight="1"
-            android:id="@+id/textContainer"
-            >
-
+            android:orientation="vertical">
 
 
             <TextView
@@ -48,16 +48,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:gravity="bottom"
-                android:text="TextView"
-                android:textAppearance="?android:textAppearanceMedium"
                 android:paddingBottom="30dp"
                 android:paddingRight="20dp"
-                />
+                android:text="TextView"
+                android:textAppearance="?android:textAppearanceMedium" />
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height"
-        android:background="?android:selectableItemBackground">
-    </View>
+        android:background="?android:selectableItemBackground"></View>
 </RelativeLayout>

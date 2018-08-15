@@ -68,7 +68,8 @@ public class BookActivity extends AppCompatActivity{
         while(word!=null&&word.contains("&")){
             int index=word.indexOf("&");
             if(word.contains(";")) {
-                String code = word.substring(index, word.indexOf(";") - index);
+                int index2=word.indexOf(";");
+                String code = word.substring(index, index2+1);
                 if(letterMap.containsKey(code)) {
                     word = word.replace(code, letterMap.get(code));
                 }
@@ -111,6 +112,9 @@ public class BookActivity extends AppCompatActivity{
             letterMap.put("&eacute;","é");
             letterMap.put("&Ecirc;","Ê");
             letterMap.put("&ecirc;","ê");
+            letterMap.put("&rdquo;","”");
+            letterMap.put("&ldquo;","“");
+            letterMap.put("&rsquo;","'");
 
             String result = "";
             URL url;
@@ -164,11 +168,16 @@ public class BookActivity extends AppCompatActivity{
             String[] splitResult1 = result.split("<div id=\"tab1\" class=\"tab-content clearfix selected\">");
             String[] splitResult = splitResult1[1].split("<div id=\"tab3\" class=\"tab-content clearfix\">");
 
-            Pattern p = Pattern.compile("<p>(.*?)</p>\n");
+            Pattern p = Pattern.compile("<p>(.*?)</p>");
             Matcher m = p.matcher(splitResult[0]);
             String aboutBook="";
             if(m.find()) {
                 aboutBook = m.group(1);
+            }
+            else{
+                int index1=splitResult[0].indexOf("<p>");
+                int index2=splitResult[0].indexOf("</p>");
+                aboutBook=splitResult[0].substring(index1,index2-index1);
             }
 
             about=converter(aboutBook);
@@ -182,7 +191,7 @@ public class BookActivity extends AppCompatActivity{
         textView.setText(bookName);
         textView=(TextView)findViewById(R.id.book_author);
         textView.setText(author);
-        textView=(TextView)findViewById(R.id.about);
+        textView=(TextView)findViewById(R.id.book_about);
         textView.setText(about);
         textView=findViewById(R.id.about);
         textView.setText("Hakkında:");
