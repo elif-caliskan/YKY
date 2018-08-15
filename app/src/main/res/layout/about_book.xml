@@ -8,53 +8,56 @@
 
     <TextView
         android:id="@+id/book_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Book Name"
-        android:padding="20dp"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/darkBlue"/>
+        android:layout_alignParentTop="true"
+        android:padding="20dp"
+        android:text="Book Name"
+        android:textColor="@color/darkBlue"
+        android:textSize="35sp" />
+
     <TextView
         android:id="@+id/book_author"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Author"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/book_name"
-        android:textSize="30sp"
-        android:padding="20dp"
-        android:textColor="@color/blue"/>
+        android:paddingRight="10dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="40dp"
+        android:text="Author"
+        android:textColor="@color/blue"
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/book_author"
-        android:textSize="25sp"
+        android:layout_above="@id/book_about"
         android:padding="20dp"
-        android:textColor="@color/lightBlue"/>
+        android:text="Hakkında:"
+        android:textColor="@color/lightBlue"
+        android:textSize="25sp"
+        android:visibility="visible" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="@dimen/about_book_icon_width"
-        android:layout_height="@dimen/about_book_icon_height"
-        android:layout_alignParentEnd="true"
+        android:id="@+id/book_cover"
+        android:layout_width="230dp"
+        android:layout_height="300dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/book_name"
+        android:paddingRight="10dp"
         app:srcCompat="@drawable/rocket" />
     <TextView
         android:id="@+id/book_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="about"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/book_cover"
         android:padding="20dp"
         android:textSize="15sp"/>
-
 
 
 </RelativeLayout>

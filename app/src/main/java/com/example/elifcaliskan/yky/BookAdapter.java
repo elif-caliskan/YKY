@@ -74,9 +74,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
             Book currentWordAdapter = getItem(position);
             ImageView iconView = (ImageView) listItemView.findViewById(R.id.list_item_icon);
 
-            String bookURL = currentWordAdapter.getBookURL();
+            String imageURL = currentWordAdapter.getImageURL();
 
-            iconView.setImageBitmap(downloadImage(iconView,bookURL));
+            iconView.setImageBitmap(downloadImage(iconView,imageURL));
             iconView.setVisibility(View.VISIBLE);
 
 

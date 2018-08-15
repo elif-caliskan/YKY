@@ -23,8 +23,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+
 @SuppressLint("ValidFragment")
 public class ListActivity extends AppCompatActivity {
+
     BookAdapter adapter;
     String url;
     ArrayList<String> imageUrls = new ArrayList<String>();
@@ -65,6 +67,15 @@ public class ListActivity extends AppCompatActivity {
             letterMap.put("&#286;","Ğ");
             letterMap.put("&#226;","â");
             letterMap.put("&#39;","'");
+            letterMap.put("&#243;","ó");
+            letterMap.put("&#200;","È");
+            letterMap.put("&#201;","É");
+            letterMap.put("&#202;","Ê");
+            letterMap.put("&#232;","è");
+            letterMap.put("&#233;","é");
+            letterMap.put("&#234;","ê");
+            letterMap.put("&#64;","@");
+            letterMap.put("&#38;","&");
 
             String result = "";
             URL url;
@@ -112,6 +123,7 @@ public class ListActivity extends AppCompatActivity {
         String result;
         try {
             result = task.execute(url).get();
+            if(result!=null)
             Log.i("Contents of URL", result);
             String[] splitResult1 = result.split("100 TEMEL ESERDE YKY KİTAPLARI</a></li>");
             String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
@@ -127,7 +139,7 @@ public class ListActivity extends AppCompatActivity {
             m = p.matcher(splitResult[0]);
 
             while (m.find()) {
-                bookUrls.add("http://kitap.ykykultur.com.tr/kitaplar/"+m.group(1));
+                bookUrls.add("http://kitap.ykykultur.com.tr/"+m.group(1));
             }
 
             p = Pattern.compile("<h2>(.*?)</h2>");
@@ -147,7 +159,7 @@ public class ListActivity extends AppCompatActivity {
 
             }
             for (int i = 0; i < bookNames.size(); i++) {
-                books.add(new Book(bookNames.get(i), imageUrls.get(i),authors.get(i)));
+                books.add(new Book(bookNames.get(i), imageUrls.get(i),authors.get(i),bookUrls.get(i)));
             }
 
         } catch (InterruptedException e) {
@@ -162,7 +174,7 @@ public class ListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ListActivity.this, ListActivity.class);
+                Intent intent = new Intent(ListActivity.this, BookActivity.class);
                 intent.putExtra("bookName",bookNames.get(position));
                 intent.putExtra("imageUrl", imageUrls.get(position));
                 intent.putExtra("authorName",authors.get(position));
