@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +83,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
             iconView.setImageBitmap(downloadImage(iconView,imageURL));
             iconView.setVisibility(View.VISIBLE);
 
+            View view = listItemView.findViewById(R.id.list_linear_layout);
+
+            view.setBackgroundColor(ContextCompat.getColor(getContext(), currentWordAdapter.categoryColor));
 
             TextView defaultTextView = (TextView) listItemView.findViewById(R.id.list_item_name);
 

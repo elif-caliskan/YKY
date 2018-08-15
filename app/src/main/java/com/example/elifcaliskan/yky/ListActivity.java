@@ -161,7 +161,7 @@ public class ListActivity extends AppCompatActivity {
 
             }
             for (int i = 0; i < bookNames.size(); i++) {
-                books.add(new Book(bookNames.get(i), imageUrls.get(i),authors.get(i),bookUrls.get(i)));
+                books.add(new Book(bookNames.get(i), imageUrls.get(i),authors.get(i),bookUrls.get(i),color));
             }
 
         } catch (InterruptedException e) {
@@ -171,6 +171,7 @@ public class ListActivity extends AppCompatActivity {
         }
         adapter = new BookAdapter(this, books, color);
         ListView listView = (ListView) findViewById(R.id.book_list);
+        //listView.setBackgroundColor(color);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

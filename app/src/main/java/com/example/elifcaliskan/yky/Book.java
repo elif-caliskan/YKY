@@ -5,6 +5,17 @@ public class Book {
     String imageUrl;
     String author;
     String bookUrl;
+    int categoryColor;
+
+
+    public int getCategoryColor() {
+        return categoryColor;
+    }
+
+    public void setCategoryColor(int categoryColor) {
+        this.categoryColor = categoryColor;
+    }
+
 
     public String getBookUrl() {
         return bookUrl;
@@ -23,11 +34,12 @@ public class Book {
     }
 
 
-    public Book(String bookName,String imageUrl,String author,String bookUrl){
+    public Book(String bookName,String imageUrl,String author,String bookUrl, int categoryColor){
         this.bookName=bookName;
         this.imageUrl=imageUrl;
         this.author=author;
         this.bookUrl=bookUrl;
+        this.categoryColor=categoryColor;
     }
 
     public String getBookName() {
