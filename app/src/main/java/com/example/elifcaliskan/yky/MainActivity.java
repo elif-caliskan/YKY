@@ -33,10 +33,17 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                intent.putExtra("url","http://kitap.ykykultur.com.tr/kitaplar/"+pos[position]);
-                intent.putExtra("color",categories.get(position).getCategoryColor());
-                startActivity(intent);
+                if(position!=2) {
+                    Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                    intent.putExtra("url", "http://kitap.ykykultur.com.tr/kitaplar/" + pos[position]);
+                    intent.putExtra("color", categories.get(position).getCategoryColor());
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(MainActivity.this, SubCategoryActivity.class);
+                    intent.putExtra("color", categories.get(position).getCategoryColor());
+                    startActivity(intent);
+                }
             }
         });
     }
