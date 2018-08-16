@@ -92,8 +92,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 defaultTextView1.setVisibility(View.VISIBLE);
             }
 
-
-
             listItemView.findViewById(R.id.textContainer).setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
 
             return listItemView;
