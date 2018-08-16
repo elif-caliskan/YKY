@@ -9,10 +9,21 @@
     tools:context="com.example.elifcaliskan.yky.MainActivity"
     >
 
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/yk" />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:dividerHeight="0dp"
+        android:divider="@null"
         />
 </LinearLayout>
 
