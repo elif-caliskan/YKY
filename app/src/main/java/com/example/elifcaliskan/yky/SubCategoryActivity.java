@@ -105,8 +105,9 @@ public class SubCategoryActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        findViewById(R.id.imageView).setVisibility(View.INVISIBLE);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.imageView).setVisibility(View.INVISIBLE);
+
 
         Intent intent = getIntent();
         color = intent.getIntExtra("color", R.color.blue);
@@ -146,7 +147,7 @@ public class SubCategoryActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         CategoryAdapter adapter = new CategoryAdapter(this, categories);
-        ListView listView = (ListView) findViewById(R.id.book_list);
+        ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
