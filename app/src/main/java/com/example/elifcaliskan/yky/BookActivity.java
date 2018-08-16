@@ -68,10 +68,13 @@ public class BookActivity extends AppCompatActivity{
         while(word!=null&&word.contains("&")){
             int index=word.indexOf("&");
             if(word.contains(";")) {
-                String code = word.substring(index, word.indexOf(";") - index);
+                String code = word.substring(index, word.indexOf(";")+1);
                 if(letterMap.containsKey(code)) {
                     word = word.replace(code, letterMap.get(code));
                 }
+            }
+            else{
+                break;
             }
         }
         return word;
@@ -111,6 +114,9 @@ public class BookActivity extends AppCompatActivity{
             letterMap.put("&eacute;","é");
             letterMap.put("&Ecirc;","Ê");
             letterMap.put("&ecirc;","ê");
+            letterMap.put("&ldquo;","“");
+            letterMap.put("&rsquo;","'");
+            letterMap.put("&rdquo;","”");
 
             String result = "";
             URL url;
@@ -164,7 +170,7 @@ public class BookActivity extends AppCompatActivity{
             String[] splitResult1 = result.split("<div id=\"tab1\" class=\"tab-content clearfix selected\">");
             String[] splitResult = splitResult1[1].split("<div id=\"tab3\" class=\"tab-content clearfix\">");
 
-            Pattern p = Pattern.compile("<p>(.*?)</p>\n");
+            Pattern p = Pattern.compile("<p>(.*?)</p>");
             Matcher m = p.matcher(splitResult[0]);
             String aboutBook="";
             if(m.find()) {
@@ -182,7 +188,7 @@ public class BookActivity extends AppCompatActivity{
         textView.setText(bookName);
         textView=(TextView)findViewById(R.id.book_author);
         textView.setText(author);
-        textView=(TextView)findViewById(R.id.about);
+        textView=(TextView)findViewById(R.id.book_about);
         textView.setText(about);
         textView=findViewById(R.id.about);
         textView.setText("Hakkında:");

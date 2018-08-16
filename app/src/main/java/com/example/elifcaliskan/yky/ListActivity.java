@@ -127,7 +127,7 @@ public class ListActivity extends AppCompatActivity {
             result = task.execute(url).get();
             if(result!=null)
             Log.i("Contents of URL", result);
-            String[] splitResult1 = result.split("100 TEMEL ESERDE YKY KİTAPLARI</a></li>");
+            String[] splitResult1 = result.split("<ul class=\"writer-list clearfix\">");
             String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
 
             Pattern p = Pattern.compile("src=\"(.*?)\"");
@@ -137,11 +137,11 @@ public class ListActivity extends AppCompatActivity {
                 imageUrls.add(m.group(1));
             }
 
-            p = Pattern.compile("<a href=\"/(.*?)\" title");
+            p = Pattern.compile("<a href=\"(.*?)\" title=");
             m = p.matcher(splitResult[0]);
 
             while (m.find()) {
-                bookUrls.add("http://kitap.ykykultur.com.tr/"+m.group(1));
+                bookUrls.add("http://kitap.ykykultur.com.tr"+m.group(1));
             }
 
             p = Pattern.compile("<h2>(.*?)</h2>");
