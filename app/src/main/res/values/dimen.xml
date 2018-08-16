@@ -1,7 +1,7 @@
 <resources>
     <!-- Height of each list item -->
     <dimen name="list_item_height">200dp</dimen>
-    <dimen name="list_item1_height">75dp</dimen>
+    <dimen name="list_item1_height">60dp</dimen>
     <dimen name="about_book_icon_width">200dp</dimen>
     <dimen name="about_book_icon_height">250dp</dimen>
     <dimen name="about_book_name_width">240dp</dimen>

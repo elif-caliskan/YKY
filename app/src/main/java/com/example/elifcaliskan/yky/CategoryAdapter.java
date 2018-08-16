@@ -32,6 +32,8 @@ public class CategoryAdapter extends ArrayAdapter<Category>{
         TextView defaultTextView = (TextView) listItemView.findViewById(R.id.textView);
 
         defaultTextView.setText(currentWordAdapter.getCategoryName());
+        defaultTextView = listItemView.findViewById(R.id.book_author);
+
 
        //Set the theme color for the list item
         View textContainer = listItemView.findViewById(R.id.textView);

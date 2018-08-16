@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +87,14 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
             TextView defaultTextView1 = (TextView) listItemView.findViewById(R.id.list_item_author);
 
-            defaultTextView1.setText(currentWordAdapter.getAuthor());
+            if(!currentWordAdapter.getAuthor().equals("")){
+                defaultTextView1.setText(currentWordAdapter.getAuthor());
+                defaultTextView1.setVisibility(View.VISIBLE);
+            }
+
+
+
+            listItemView.findViewById(R.id.textContainer).setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
 
             return listItemView;
         }
