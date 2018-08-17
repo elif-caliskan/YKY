@@ -11,8 +11,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CategoryAdapter extends ArrayAdapter<Category>{
-    public CategoryAdapter(Activity context, ArrayList<Category> categories){
+    int textColor;
+    public CategoryAdapter(Activity context, ArrayList<Category> categories, int textColor){
         super(context, 0, categories);
+        this.textColor=textColor;
     }
 
 
@@ -32,12 +34,12 @@ public class CategoryAdapter extends ArrayAdapter<Category>{
         TextView defaultTextView = (TextView) listItemView.findViewById(R.id.textView);
 
         defaultTextView.setText(currentWordAdapter.getCategoryName());
-        defaultTextView = listItemView.findViewById(R.id.book_author);
+        defaultTextView.setTextColor(ContextCompat.getColor(getContext(),textColor));
 
-
-       //Set the theme color for the list item
+        //Set the theme color for the list item
         View textContainer = listItemView.findViewById(R.id.textView);
         textContainer.setBackgroundColor(ContextCompat.getColor(getContext(), currentWordAdapter.categoryColor));
+
 
         // View playbutton = listItemView.findViewById(R.id.playicon);
         //Set Background color to the color the resource Id maps to

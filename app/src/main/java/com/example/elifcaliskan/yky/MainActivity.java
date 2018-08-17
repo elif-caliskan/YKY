@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -27,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         categories.add(new Category("100 TEMEL ESERDE YKY KİTAPLARI",R.color.lightestBlue));
 
         ListView listView = (ListView) findViewById(R.id.list);
-        CategoryAdapter arrayAdapter = new CategoryAdapter(this, categories);
+        ImageView imageView=findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.yk);
+        CategoryAdapter arrayAdapter = new CategoryAdapter(this, categories,android.R.color.black);
         listView.setAdapter(arrayAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

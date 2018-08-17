@@ -24,9 +24,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     ImageView downloadedImg;
     int mColorResourceId;
-    public BookAdapter(Activity context, ArrayList<Book> books, int ColorResourceId){
+    int textColor;
+    public BookAdapter(Activity context, ArrayList<Book> books, int ColorResourceId,int textColor){
             super(context, 0, books);
             mColorResourceId = ColorResourceId;
+            this.textColor=textColor;
         }
         public class ImageDownloader extends AsyncTask<String, Void, Bitmap>{
 
@@ -93,6 +95,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
             }
 
             listItemView.findViewById(R.id.textContainer).setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
+            ((TextView) listItemView.findViewById(R.id.list_item_name)).setTextColor(ContextCompat.getColor(getContext(), textColor));
+            ((TextView) listItemView.findViewById(R.id.list_item_author)).setTextColor(ContextCompat.getColor(getContext(),textColor));
 
             return listItemView;
         }

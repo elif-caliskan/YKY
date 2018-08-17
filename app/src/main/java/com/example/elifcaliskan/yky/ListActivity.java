@@ -169,7 +169,7 @@ public class ListActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        adapter = new BookAdapter(this, books, color);
+        adapter = new BookAdapter(this, books, color,android.R.color.white);
         ListView listView = (ListView) findViewById(R.id.book_list);
         listView.setAdapter(adapter);
 

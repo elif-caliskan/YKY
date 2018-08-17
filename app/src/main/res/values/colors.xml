@@ -10,5 +10,36 @@
     <color name="darkerBlue">#0097A7</color>
     <color name="darkerBlue2">#00838F</color>
     <color name="darkBlue">#006064</color>
+    <color name="red">#B71C1C</color>
+    <color name="lightRed">#EF5350</color>
+    <color name="pink">#880E4F</color>
+    <color name="lightPink">#EC407A</color>
+    <color name="purple">#4A148C</color>
+    <color name="lightPurple">#AB47BC</color>
+    <color name="bluee">#1A237E</color>
+    <color name="lightBluee">#3F51B5</color>
+    <color name="green">#1B5E20</color>
+    <color name="lightGreen">#43A047</color>
+    <color name="orange">#E65100</color>
+    <color name="lightOrange">#FF9800</color>
+    <color name="brown">#3E2723</color>
+    <color name="lightBrown">#795548</color>
+    <color name="indigo">#3949AB</color>
+    <color name="lightIndigo">#5C6BC0</color>
+    <color name="deepPurple">#311B92</color>
+    <color name="lightDeepPurple">#7E57C2</color>
+    <color name="lighhtBlue">#01579B</color>
+    <color name="lightLighhtBlue">#039BE5</color>
+    <color name="teal">#004D40</color>
+    <color name="lightTeal">#009688</color>
+    <color name="lighttGreen">#33691E</color>
+    <color name="lightLightGreen">#7CB342</color>
+    <color name="lime">#827717</color>
+    <color name="lightLime">#AFB42B</color>
+    <color name="gray">#37474F</color>
+    <color name="lightGray">#607D8B</color>
+    <color name="yellow">#F9A825</color>
+    <color name="lightYellow">#FDD835</color>
+
 
 </resources>
