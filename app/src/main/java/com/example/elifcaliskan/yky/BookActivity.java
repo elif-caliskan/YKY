@@ -172,9 +172,12 @@ public class BookActivity extends AppCompatActivity{
 
             Pattern p = Pattern.compile("<p>(.*?)</p>");
             Matcher m = p.matcher(splitResult[0]);
-            String aboutBook="";
-            if(m.find()) {
-                aboutBook = m.group(1);
+            String aboutBook="\t";
+            int i=1;
+            while(m.find()) {
+                aboutBook += m.group(i);
+                aboutBook+="\n\t";
+                i++;
             }
 
             about=converter(aboutBook);
