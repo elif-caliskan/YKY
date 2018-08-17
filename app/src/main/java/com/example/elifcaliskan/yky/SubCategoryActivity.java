@@ -140,7 +140,7 @@ public class SubCategoryActivity extends AppCompatActivity{
             String[] splitResult1 = result.split("<div class=\"acc-content\">");
             String[] splitResult = splitResult1[1].split("</ul>");
 
-            Pattern p = Pattern.compile("<li><a href=\"(.*?)\" title=");
+            Pattern p = Pattern.compile("<li><a href=\"/(.*?)\" title=");
             Matcher m = p.matcher(splitResult[0]);
 
             while (m.find()) {

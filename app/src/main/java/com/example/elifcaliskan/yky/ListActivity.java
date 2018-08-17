@@ -77,6 +77,14 @@ public class ListActivity extends AppCompatActivity {
             letterMap.put("&#234;","ê");
             letterMap.put("&#64;","@");
             letterMap.put("&#38;","&");
+            letterMap.put("&#225;","á");
+            letterMap.put("&#193;","Á");
+            letterMap.put("&#203;","Ë");
+            letterMap.put("&#235;","ë");
+            letterMap.put("&#198;","Æ");
+            letterMap.put("&#230;","æ");
+            letterMap.put("&#239;","ï");
+            
 
             String result = "";
             URL url;
@@ -127,7 +135,7 @@ public class ListActivity extends AppCompatActivity {
             result = task.execute(url).get();
             if(result!=null)
             Log.i("Contents of URL", result);
-            String[] splitResult1 = result.split("<ul class=\"writer-list clearfix\">");
+            String[] splitResult1 = result.split("-list clearfix\">");
             String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
 
             Pattern p = Pattern.compile("src=\"(.*?)\"");

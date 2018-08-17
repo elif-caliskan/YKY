@@ -17,7 +17,8 @@
         android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
         app:srcCompat="@drawable/yk"
-        android:layout_weight="2.5"/>
+        android:layout_weight="2.5"
+        android:padding="20dp"/>
 
     <ListView
         android:id="@+id/list"
