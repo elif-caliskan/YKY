@@ -1,7 +1,5 @@
 package com.example.elifcaliskan.yky;
 
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.io.InputStream;
@@ -22,18 +21,28 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
-@SuppressLint("ValidFragment")
-public class ListActivity extends AppCompatActivity {
-
-    BookAdapter adapter;
-    String url;
+public class SubCategoryActivity extends AppCompatActivity{
     int color;
-    ArrayList<String> imageUrls = new ArrayList<String>();
-    ArrayList<String> bookUrls = new ArrayList<String>();
-    ArrayList<String> bookNames=new ArrayList<String>();
-    ArrayList<String> authors=new ArrayList<String>();
+    int[] colors={R.color.red,R.color.lightRed,
+            R.color.pink, R.color.lightPink,
+            R.color.purple,R.color.lightPurple,
+            R.color.deepPurple,R.color.lightDeepPurple,
+            R.color.indigo,R.color.lightIndigo,
+            R.color.bluee,R.color.lightBluee,
+            R.color.darkBlue,R.color.blue,
+            R.color.lighhtBlue,R.color.lightLighhtBlue,
+            R.color.teal,R.color.lightTeal,
+            R.color.green,R.color.lightGreen,
+            R.color.lighttGreen,R.color.lightLightGreen,
+            R.color.lime,R.color.lightLime,
+            R.color.yellow,R.color.lightYellow,
+            R.color.orange,R.color.lightOrange,
+            R.color.brown,R.color.lightBrown,
+            R.color.gray,R.color.lightGray};
+
+
+    ArrayList<Category> categories=new ArrayList<Category>();
+    ArrayList<String> categoryUrls=new ArrayList<String>();
     Map<String,String> letterMap=new HashMap<String, String>();
     public String converter(String word){
         while(word!=null&&word.contains("&#")){
@@ -50,7 +59,7 @@ public class ListActivity extends AppCompatActivity {
         return word;
     }
 
-    public class DownloadTask extends AsyncTask<String,Void,String>{
+    public class DownloadTask extends AsyncTask<String,Void,String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -77,14 +86,6 @@ public class ListActivity extends AppCompatActivity {
             letterMap.put("&#234;","ê");
             letterMap.put("&#64;","@");
             letterMap.put("&#38;","&");
-            letterMap.put("&#225;","á");
-            letterMap.put("&#193;","Á");
-            letterMap.put("&#203;","Ë");
-            letterMap.put("&#235;","ë");
-            letterMap.put("&#198;","Æ");
-            letterMap.put("&#230;","æ");
-            letterMap.put("&#239;","ï");
-
 
             String result = "";
             URL url;
@@ -123,74 +124,67 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.books_list);
+        setContentView(R.layout.activity_main);
+        ImageView imageView = findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.books);
         Intent intent = getIntent();
-        color=intent.getIntExtra("color",R.color.blue);
-        url = intent.getStringExtra("url");
+        color = intent.getIntExtra("color", R.color.blue);
         final ArrayList<Book> books = new ArrayList<Book>();
 
-        DownloadTask task = new DownloadTask();
+        SubCategoryActivity.DownloadTask task = new SubCategoryActivity.DownloadTask();
         String result;
         try {
-            result = task.execute(url).get();
-            if(result!=null)
+            result = task.execute("http://kitap.ykykultur.com.tr/kitaplar").get();
+            if (result != null)
                 Log.i("Contents of URL", result);
-            String[] splitResult1 = result.split("-list clearfix\">");
-            String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
+            String[] splitResult1 = result.split("<div class=\"acc-content\">");
+            String[] splitResult = splitResult1[1].split("</ul>");
 
-            Pattern p = Pattern.compile("src=\"(.*?)\"");
+            Pattern p = Pattern.compile("<li><a href=\"/(.*?)\" title=");
             Matcher m = p.matcher(splitResult[0]);
 
             while (m.find()) {
-                imageUrls.add(m.group(1));
+
+                categoryUrls.add("http://kitap.ykykultur.com.tr/"+m.group(1));
             }
 
-            p = Pattern.compile("<a href=\"(.*?)\" title=");
+            p = Pattern.compile("title=\"(.*?)\">");
             m = p.matcher(splitResult[0]);
-
+            int i=0;
             while (m.find()) {
-                bookUrls.add("http://kitap.ykykultur.com.tr"+m.group(1));
-            }
-
-            p = Pattern.compile("<h2>(.*?)</h2>");
-            m = p.matcher(splitResult[0]);
-
-            while (m.find()) {
-                String name =converter(m.group(1));
-                bookNames.add(name);
-
-            }
-            p = Pattern.compile("<h3>(.*?)</h3>");
-            m = p.matcher(splitResult[0]);
-
-            while (m.find()) {
-                String name =converter(m.group(1));
-                authors.add(name);
+                String name=m.group(1);
+                if(name.contains("class")){
+                    name=" -> "+name.substring(0,name.indexOf("\""));
+                    name=converter(name);
+                    categories.add(new Category(name,colors[i-1]));
+                }
+                else{
+                    name=converter(name);
+                    categories.add(new Category(name,colors[i]));
+                    i+=2;
+                }
 
             }
-            for (int i = 0; i < bookNames.size(); i++) {
-                books.add(new Book(bookNames.get(i), imageUrls.get(i),authors.get(i),bookUrls.get(i)));
-            }
+
+            /*for (int i = 0; i < bookNames.size(); i++) {
+                books.add(new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i)));
+            } renkler için düşünüleilir*/
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        adapter = new BookAdapter(this, books, color,android.R.color.white);
-        ListView listView = (ListView) findViewById(R.id.book_list);
+        CategoryAdapter adapter = new CategoryAdapter(this, categories,android.R.color.white);
+        ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ListActivity.this, BookActivity.class);
-                intent.putExtra("bookName",bookNames.get(position));
-                intent.putExtra("imageUrl", imageUrls.get(position));
-                intent.putExtra("authorName",authors.get(position));
-                intent.putExtra("bookUrl",bookUrls.get(position));
-
-
+                Intent intent = new Intent(SubCategoryActivity.this, ListActivity.class);
+                intent.putExtra("color",categories.get(position).getCategoryColor());
+                intent.putExtra("url", categoryUrls.get(position));
                 startActivity(intent);
             }
         });

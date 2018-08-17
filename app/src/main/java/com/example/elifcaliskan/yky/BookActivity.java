@@ -68,11 +68,13 @@ public class BookActivity extends AppCompatActivity{
         while(word!=null&&word.contains("&")){
             int index=word.indexOf("&");
             if(word.contains(";")) {
-                int index2=word.indexOf(";");
-                String code = word.substring(index, index2+1);
+                String code = word.substring(index, word.indexOf(";")+1);
                 if(letterMap.containsKey(code)) {
                     word = word.replace(code, letterMap.get(code));
                 }
+            }
+            else{
+                break;
             }
         }
         return word;
@@ -112,9 +114,9 @@ public class BookActivity extends AppCompatActivity{
             letterMap.put("&eacute;","é");
             letterMap.put("&Ecirc;","Ê");
             letterMap.put("&ecirc;","ê");
-            letterMap.put("&rdquo;","”");
             letterMap.put("&ldquo;","“");
             letterMap.put("&rsquo;","'");
+            letterMap.put("&rdquo;","”");
 
             String result = "";
             URL url;
@@ -173,11 +175,6 @@ public class BookActivity extends AppCompatActivity{
             String aboutBook="";
             if(m.find()) {
                 aboutBook = m.group(1);
-            }
-            else{
-                int index1=splitResult[0].indexOf("<p>");
-                int index2=splitResult[0].indexOf("</p>");
-                aboutBook=splitResult[0].substring(index1,index2-index1);
             }
 
             about=converter(aboutBook);

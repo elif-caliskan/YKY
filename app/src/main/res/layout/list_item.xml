@@ -1,61 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
+    android:minHeight="@dimen/list_item_height"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minHeight="@dimen/list_item_height">
+    android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
+    android:orientation="vertical"
+    android:id="@+id/book_list_item"
+    android:padding="30dp">
+
+    <ImageView
+        android:id="@+id/list_item_icon"
+        android:layout_width="120dp"
+        android:layout_height="@dimen/list_item_height"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        />
 
     <LinearLayout
-        android:id="@+id/list_linear_layout"
+        android:id="@+id/textContainer"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:paddingLeft="10dp">
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
 
-        <ImageView
-            android:id="@+id/list_item_icon"
-            android:layout_width="120dp"
-            android:layout_height="@dimen/list_item_height"
-            android:scaleType="centerCrop"
+        <TextView
+            android:id="@+id/list_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="20dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="bookName" />
+
+        <TextView
+            android:id="@+id/list_item_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:text="fgg"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
 
             />
-
-        <LinearLayout
-            android:id="@+id/textContainer"
-            android:layout_width="@dimen/list_item_height"
-            android:layout_height="@dimen/list_item_height"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/list_item_name"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                tools:text="bookName" />
-
-            <TextView
-                android:id="@+id/list_item_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:gravity="bottom"
-                android:paddingBottom="30dp"
-                android:paddingRight="20dp"
-                android:text="TextView"
-                android:textAppearance="?android:textAppearanceMedium" />
-        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/list_item_height"
-        android:background="?android:selectableItemBackground"></View>
-</RelativeLayout>
+</LinearLayout>

@@ -9,13 +9,13 @@
     android:padding="10dp"
     >
 
-    <com.example.elifcaliskan.yky.LovelyView
-        android:id="@+id/custView"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        custom:containerColor="#ff0099"
-        custom:containerLabel="Hello"
-        custom:labelColor="@android:color/black" />
-    />
+        android:layout_height="@dimen/list_item1_height"
+        android:text="TextView"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textSize="22sp"/>
 
 </RelativeLayout>

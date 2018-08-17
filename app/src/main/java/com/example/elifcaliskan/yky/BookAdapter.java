@@ -24,79 +24,80 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     ImageView downloadedImg;
     int mColorResourceId;
+    int textColor;
+    public BookAdapter(Activity context, ArrayList<Book> books, int ColorResourceId,int textColor){
+        super(context, 0, books);
+        mColorResourceId = ColorResourceId;
+        this.textColor=textColor;
+    }
+    public class ImageDownloader extends AsyncTask<String, Void, Bitmap>{
 
-    public BookAdapter(Activity context, ArrayList<Book> books, int ColorResourceId){
-            super(context, 0, books);
-            mColorResourceId = ColorResourceId;
-        }
-        public class ImageDownloader extends AsyncTask<String, Void, Bitmap>{
-
-            @Override
-            protected Bitmap doInBackground(String... urls) {
-                try {
-                    URL url=new URL(urls[0]);
-                    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                    connection.connect();
-                    InputStream inputStream = connection.getInputStream();
-                    Bitmap myBitmap = BitmapFactory.decodeStream(inputStream);
-                    return myBitmap;
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }
-        public Bitmap downloadImage(View view,String url){
-            ImageDownloader task = new ImageDownloader();
-            Bitmap myImage;
+        @Override
+        protected Bitmap doInBackground(String... urls) {
             try {
-                myImage = task.execute(url).get();
-                return myImage;
-            } catch (InterruptedException e) {
+                URL url=new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(inputStream);
+                return myBitmap;
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+    public Bitmap downloadImage(View view,String url){
+        ImageDownloader task = new ImageDownloader();
+        Bitmap myImage;
+        try {
+            myImage = task.execute(url).get();
+            return myImage;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
 
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+
+        View listItemView = convertView;
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.list_item, parent, false);
         }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        Book currentWordAdapter = getItem(position);
+        ImageView iconView = (ImageView) listItemView.findViewById(R.id.list_item_icon);
+
+        String imageURL = currentWordAdapter.getImageURL();
+
+        iconView.setImageBitmap(downloadImage(iconView,imageURL));
+        iconView.setVisibility(View.VISIBLE);
 
 
-            View listItemView = convertView;
+        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.list_item_name);
 
+        defaultTextView.setText(currentWordAdapter.getBookName());
 
-            if (listItemView == null) {
-                listItemView = LayoutInflater.from(getContext()).inflate(
-                        R.layout.list_item, parent, false);
-                //listItemView.setBackgroundColor(mColorResourceId);
-            }
+        TextView defaultTextView1 = (TextView) listItemView.findViewById(R.id.list_item_author);
 
-            Book currentWordAdapter = getItem(position);
-            ImageView iconView = (ImageView) listItemView.findViewById(R.id.list_item_icon);
-
-            String imageURL = currentWordAdapter.getImageURL();
-
-            iconView.setImageBitmap(downloadImage(iconView,imageURL));
-            iconView.setVisibility(View.VISIBLE);
-
-            View view = listItemView.findViewById(R.id.list_linear_layout);
-
-            view.setBackgroundColor(ContextCompat.getColor(getContext(), currentWordAdapter.categoryColor));
-
-            TextView defaultTextView = (TextView) listItemView.findViewById(R.id.list_item_name);
-
-            defaultTextView.setText(currentWordAdapter.getBookName());
-
-            TextView defaultTextView1 = (TextView) listItemView.findViewById(R.id.list_item_author);
-
+        if(!currentWordAdapter.getAuthor().equals("")){
             defaultTextView1.setText(currentWordAdapter.getAuthor());
-
-            return listItemView;
+            defaultTextView1.setVisibility(View.VISIBLE);
         }
-}
 
+        listItemView.findViewById(R.id.textContainer).setBackgroundColor(ContextCompat.getColor(getContext(), mColorResourceId));
+        ((TextView) listItemView.findViewById(R.id.list_item_name)).setTextColor(ContextCompat.getColor(getContext(), textColor));
+        ((TextView) listItemView.findViewById(R.id.list_item_author)).setTextColor(ContextCompat.getColor(getContext(),textColor));
+
+        return listItemView;
+    }
+}
