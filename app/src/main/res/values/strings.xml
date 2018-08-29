@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">YKY</string>
+    <string name="about_book">Kitap Hakkında</string>
+    <string name="book_info">Bilgiler</string>
+    <string name="tadımlık">Tadımlık</string>
+    <string name="comment">Yorumlar</string>
 </resources>
