@@ -5,6 +5,28 @@ public class Book {
     String imageUrl;
     String author;
     String bookUrl;
+    Category category;
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    String about;
+    int position;
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
 
 
     public String getBookUrl() {
@@ -24,11 +46,13 @@ public class Book {
     }
 
 
-    public Book(String bookName,String imageUrl,String author,String bookUrl){
+    public Book(String bookName,String imageUrl,String author,String bookUrl,Category category,String about){
         this.bookName=bookName;
         this.imageUrl=imageUrl;
         this.author=author;
         this.bookUrl=bookUrl;
+        this.category=category;
+        this.about=about;
     }
 
     public String getBookName() {

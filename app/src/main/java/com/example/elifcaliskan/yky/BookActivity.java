@@ -29,6 +29,8 @@ public class BookActivity extends AppCompatActivity {
         adapter.setBookUrl(intent.getStringExtra("bookUrl"));
         adapter.setBookName(intent.getStringExtra("bookName"));
         adapter.setImageUrl(intent.getStringExtra("imageUrl"));
+        adapter.setCategoryName(intent.getStringExtra("categoryName"));
+        adapter.setPosition(intent.getIntExtra("position",0));
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);

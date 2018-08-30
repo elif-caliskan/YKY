@@ -11,6 +11,27 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
     private String imageUrl;
     private String bookUrl;
     private String bookName;
+    private String categoryName;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    private int position;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -60,6 +81,7 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
             fragment.bookUrl=bookUrl;
             fragment.author=author;
             fragment.imageUrl=imageUrl;
+            fragment.categoryName=categoryName;
             return fragment;
         } else if (position == 1) {
             AboutFragment fragment = new AboutFragment();
@@ -67,6 +89,7 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
             fragment.bookUrl=bookUrl;
             fragment.author=author;
             fragment.imageUrl=imageUrl;
+            fragment.categoryName=categoryName;
             return fragment;
         } else if (position == 2) {
             TadımlıkFragment fragment = new TadımlıkFragment();
@@ -74,6 +97,7 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
             fragment.bookUrl=bookUrl;
             fragment.author=author;
             fragment.imageUrl=imageUrl;
+            //category eklenmedi
             return fragment;
         } else if (position == 3) {
             AboutFragment fragment = new AboutFragment();

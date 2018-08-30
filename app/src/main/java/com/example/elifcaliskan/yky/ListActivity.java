@@ -37,6 +37,7 @@ public class ListActivity extends AppCompatActivity {
     BookAdapter adapter;
     String url;
     int color;
+    int position;
     String result;
     DatabaseReference dbref;
     ArrayList<Book> books;
@@ -151,16 +152,9 @@ public class ListActivity extends AppCompatActivity {
                     books.clear();
                     ArrayList<HashMap<String,String>> bookObject=(ArrayList<HashMap<String,String>>)snapshot.getValue();
                     for(int i=0;i<bookObject.size();i++){
-                        books.add(new Book(bookObject.get(i).get("bookName"),bookObject.get(i).get("imageUrl"),bookObject.get(i).get("author"),bookObject.get(i).get("bookUrl")));
+                        books.add(new Book(bookObject.get(i).get("bookName"),bookObject.get(i).get("imageUrl"),bookObject.get(i).get("author"),bookObject.get(i).get("bookUrl"),new Category(categoryName,color),bookObject.get(i).get("about")));
+
                     }
-
-
-                    /*for(DataSnapshot bookSnapshot : snapshot.getChildren()){
-                        Book book = bookSnapshot.getValue(Book.class);
-                        books.add(book);
-                        bookMap.put(book.bookName,book);
-                    }*/
-
                 }
                 else{
                     DownloadTask task = new DownloadTask();
@@ -203,7 +197,7 @@ public class ListActivity extends AppCompatActivity {
                         }
 
                         for (int i = 0; i < bookNames.size(); i++) {
-                            Book book = new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i));
+                            Book book = new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i),new Category(categoryName,color), "");
                             books.add(book);
                             String name=bookNames.get(i);
                             name=name.replace(".","1"); //1i değiştir
@@ -230,10 +224,12 @@ public class ListActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(ListActivity.this, BookActivity.class);
-                        intent.putExtra("bookName",bookNames.get(position));
-                        intent.putExtra("imageUrl", imageUrls.get(position));
-                        intent.putExtra("authorName",authors.get(position));
-                        intent.putExtra("bookUrl",bookUrls.get(position));
+                        intent.putExtra("bookName",books.get(position).getBookName());
+                        intent.putExtra("imageUrl", books.get(position).getImageUrl());
+                        intent.putExtra("authorName",books.get(position).getAuthor());
+                        intent.putExtra("bookUrl",books.get(position).getBookUrl());
+                        intent.putExtra("categoryName",books.get(position).getCategory().getCategoryName());
+                        intent.putExtra("position",position);
                         startActivity(intent);
                     }
                 });
