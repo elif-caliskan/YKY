@@ -5,14 +5,18 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,12 +37,15 @@ public class ListActivity extends AppCompatActivity {
     BookAdapter adapter;
     String url;
     int color;
+    String result;
     DatabaseReference dbref;
+    ArrayList<Book> books;
     ArrayList<String> imageUrls = new ArrayList<String>();
     ArrayList<String> bookUrls = new ArrayList<String>();
     ArrayList<String> bookNames=new ArrayList<String>();
     ArrayList<String> authors=new ArrayList<String>();
     Map<String,String> letterMap=new HashMap<String, String>();
+    Map<String,Book> bookMap=new HashMap<String, Book>();
     public String converter(String word){
         while(word!=null&&word.contains("&#")){
             int index=word.indexOf("&#");
@@ -132,81 +139,114 @@ public class ListActivity extends AppCompatActivity {
         color=intent.getIntExtra("color",R.color.blue);
         url = intent.getStringExtra("url");
         categoryName=intent.getStringExtra("categoryName");
-        final ArrayList<Book> books = new ArrayList<Book>();
+        books = new ArrayList<Book>();
 
-        DownloadTask task = new DownloadTask();
-        String result;
-        try {
-            result = task.execute(url).get();
-            if(result!=null)
-                Log.i("Contents of URL", result);
-            String[] splitResult1 = result.split("-list clearfix\">");
-            String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
+        dbref=FirebaseDatabase.getInstance().getReference();
 
-            Pattern p = Pattern.compile("src=\"(.*?)\"");
-            Matcher m = p.matcher(splitResult[0]);
-
-            while (m.find()) {
-                imageUrls.add(m.group(1));
-            }
-
-            p = Pattern.compile("<a href=\"(.*?)\" title=");
-            m = p.matcher(splitResult[0]);
-
-            while (m.find()) {
-                bookUrls.add("http://kitap.ykykultur.com.tr"+m.group(1));
-            }
-
-            p = Pattern.compile("<h2>(.*?)</h2>");
-            m = p.matcher(splitResult[0]);
-
-            while (m.find()) {
-                String name =converter(m.group(1));
-                bookNames.add(name);
-
-            }
-            p = Pattern.compile("<h3>(.*?)</h3>");
-            m = p.matcher(splitResult[0]);
-
-            while (m.find()) {
-                String name =converter(m.group(1));
-                authors.add(name);
-
-            }
-            dbref=FirebaseDatabase.getInstance().getReference();
-            for (int i = 0; i < bookNames.size(); i++) {
-                Book book=new Book(bookNames.get(i), imageUrls.get(i),authors.get(i),bookUrls.get(i));
-                books.add(book);
-
-            }
-            dbref.child(categoryName).setValue(books);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        adapter = new BookAdapter(this, books, color,android.R.color.white);
-        ListView listView = (ListView) findViewById(R.id.book_list);
-        listView.setAdapter(adapter);
-
-        for(int i=0;i<bookNames.size();i++){
-
-        }
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dbref.child(categoryName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ListActivity.this, BookActivity.class);
-                intent.putExtra("bookName",bookNames.get(position));
-                intent.putExtra("imageUrl", imageUrls.get(position));
-                intent.putExtra("authorName",authors.get(position));
-                intent.putExtra("bookUrl",bookUrls.get(position));
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getValue()!=null) {
+                    bookMap.clear();
+                    books.clear();
+                    ArrayList<HashMap<String,String>> bookObject=(ArrayList<HashMap<String,String>>)snapshot.getValue();
+                    for(int i=0;i<bookObject.size();i++){
+                        books.add(new Book(bookObject.get(i).get("bookName"),bookObject.get(i).get("imageUrl"),bookObject.get(i).get("author"),bookObject.get(i).get("bookUrl")));
+                    }
 
 
-                startActivity(intent);
+                    /*for(DataSnapshot bookSnapshot : snapshot.getChildren()){
+                        Book book = bookSnapshot.getValue(Book.class);
+                        books.add(book);
+                        bookMap.put(book.bookName,book);
+                    }*/
+
+                }
+                else{
+                    DownloadTask task = new DownloadTask();
+                    try {
+                        result = task.execute(url).get();
+                        if (result != null)
+                            Log.i("Contents of URL", result);
+                        String[] splitResult1 = result.split("-list clearfix\">");
+                        String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
+
+                        Pattern p = Pattern.compile("src=\"(.*?)\"");
+                        Matcher m = p.matcher(splitResult[0]);
+
+                        while (m.find()) {
+                            imageUrls.add(m.group(1));
+                        }
+
+                        p = Pattern.compile("<a href=\"(.*?)\" title=");
+                        m = p.matcher(splitResult[0]);
+
+                        while (m.find()) {
+                            bookUrls.add("http://kitap.ykykultur.com.tr" + m.group(1));
+                        }
+
+                        p = Pattern.compile("<h2>(.*?)</h2>");
+                        m = p.matcher(splitResult[0]);
+
+                        while (m.find()) {
+                            String name = converter(m.group(1));
+                            bookNames.add(name);
+
+                        }
+                        p = Pattern.compile("<h3>(.*?)</h3>");
+                        m = p.matcher(splitResult[0]);
+
+                        while (m.find()) {
+                            String name = converter(m.group(1));
+                            authors.add(name);
+
+                        }
+
+                        for (int i = 0; i < bookNames.size(); i++) {
+                            Book book = new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i));
+                            books.add(book);
+                            String name=bookNames.get(i);
+                            name=name.replace(".","1"); //1i değiştir
+                            name=name.replace("/","2");
+                            name=name.replace("#","3");
+                            name=name.replace("$","4");
+                            name=name.replace("[","5");
+                            name=name.replace("]","6");
+                            bookMap.put(name, book);
+                        }
+                        dbref.child(categoryName).setValue(books);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+                adapter = new BookAdapter(ListActivity.this, books, color,android.R.color.white);
+                ListView listView = (ListView) findViewById(R.id.book_list);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(ListActivity.this, BookActivity.class);
+                        intent.putExtra("bookName",bookNames.get(position));
+                        intent.putExtra("imageUrl", imageUrls.get(position));
+                        intent.putExtra("authorName",authors.get(position));
+                        intent.putExtra("bookUrl",bookUrls.get(position));
+                        startActivity(intent);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
+
     }
 
 }

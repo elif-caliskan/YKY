@@ -6,6 +6,7 @@ public class Book {
     String author;
     String bookUrl;
 
+
     public String getBookUrl() {
         return bookUrl;
     }
