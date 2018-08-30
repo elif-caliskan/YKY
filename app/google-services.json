@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "55443014051",
+    "firebase_url": "https://yky-master.firebaseio.com",
+    "project_id": "yky-master",
+    "storage_bucket": "yky-master.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55443014051:android:984363d7cbdaa423",
+        "android_client_info": {
+          "package_name": "com.example.elifcaliskan.yky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55443014051-079nkuq1vrhidv881h6dp08vtp9lp7dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpeHJ9KZvERHKZfPuvYqvX6YPENbeMe04"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

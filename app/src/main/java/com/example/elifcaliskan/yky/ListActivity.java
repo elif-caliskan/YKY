@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -26,10 +29,11 @@ import java.util.regex.Pattern;
 
 @SuppressLint("ValidFragment")
 public class ListActivity extends AppCompatActivity {
-
+    String categoryName;
     BookAdapter adapter;
     String url;
     int color;
+    DatabaseReference dbref;
     ArrayList<String> imageUrls = new ArrayList<String>();
     ArrayList<String> bookUrls = new ArrayList<String>();
     ArrayList<String> bookNames=new ArrayList<String>();
@@ -127,6 +131,7 @@ public class ListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         color=intent.getIntExtra("color",R.color.blue);
         url = intent.getStringExtra("url");
+        categoryName=intent.getStringExtra("categoryName");
         final ArrayList<Book> books = new ArrayList<Book>();
 
         DownloadTask task = new DownloadTask();
@@ -168,9 +173,13 @@ public class ListActivity extends AppCompatActivity {
                 authors.add(name);
 
             }
+            dbref=FirebaseDatabase.getInstance().getReference();
             for (int i = 0; i < bookNames.size(); i++) {
-                books.add(new Book(bookNames.get(i), imageUrls.get(i),authors.get(i),bookUrls.get(i)));
+                Book book=new Book(bookNames.get(i), imageUrls.get(i),authors.get(i),bookUrls.get(i));
+                books.add(book);
+
             }
+            dbref.child(categoryName).setValue(books);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -180,6 +189,10 @@ public class ListActivity extends AppCompatActivity {
         adapter = new BookAdapter(this, books, color,android.R.color.white);
         ListView listView = (ListView) findViewById(R.id.book_list);
         listView.setAdapter(adapter);
+
+        for(int i=0;i<bookNames.size();i++){
+
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

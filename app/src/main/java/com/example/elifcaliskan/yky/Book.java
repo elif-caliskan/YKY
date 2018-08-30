@@ -38,11 +38,11 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public String getImageURL() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageURL(String bookURL) {
+    public void setImageUrl(String bookURL) {
         this.imageUrl = imageUrl;
     }
 }

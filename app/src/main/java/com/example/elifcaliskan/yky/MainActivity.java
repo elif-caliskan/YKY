@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 if(position!=1) {
                     Intent intent = new Intent(MainActivity.this, ListActivity.class);
                     intent.putExtra("url", "http://kitap.ykykultur.com.tr/kitaplar/" + pos[position]);
+                    intent.putExtra("categoryName",categories.get(position).getCategoryName());
                     intent.putExtra("color", categories.get(position).getCategoryColor());
                     startActivity(intent);
                 }

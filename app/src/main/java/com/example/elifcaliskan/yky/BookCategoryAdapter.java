@@ -69,7 +69,7 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
             fragment.imageUrl=imageUrl;
             return fragment;
         } else if (position == 2) {
-            AboutFragment fragment = new AboutFragment();
+            TadımlıkFragment fragment = new TadımlıkFragment();
             fragment.bookName=bookName;
             fragment.bookUrl=bookUrl;
             fragment.author=author;
