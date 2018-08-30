@@ -8,68 +8,21 @@ import android.support.v4.app.Fragment;
 public class BookCategoryAdapter extends FragmentPagerAdapter {
 
     private Context mContext;
-    private String imageUrl;
-    private String bookUrl;
-    private String bookName;
-    private String categoryName;
 
-    public int getPosition() {
-        return position;
+    public Book getBook() {
+        return book;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    private int position;
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getBookUrl() {
-        return bookUrl;
-    }
-
-    public void setBookUrl(String bookUrl) {
-        this.bookUrl = bookUrl;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    private String author;
+    private Book book;
 
     public BookCategoryAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        book=new Book();
     }
 
     @Override
@@ -77,34 +30,20 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
 
         if (position == 0) {
             AboutFragment fragment = new AboutFragment();
-            fragment.bookName=bookName;
-            fragment.bookUrl=bookUrl;
-            fragment.author=author;
-            fragment.imageUrl=imageUrl;
-            fragment.categoryName=categoryName;
+            fragment.book=book;
             return fragment;
         } else if (position == 1) {
             AboutFragment fragment = new AboutFragment();
-            fragment.bookName=bookName;
-            fragment.bookUrl=bookUrl;
-            fragment.author=author;
-            fragment.imageUrl=imageUrl;
-            fragment.categoryName=categoryName;
+            fragment.book=book;
             return fragment;
         } else if (position == 2) {
             TadımlıkFragment fragment = new TadımlıkFragment();
-            fragment.bookName=bookName;
-            fragment.bookUrl=bookUrl;
-            fragment.author=author;
-            fragment.imageUrl=imageUrl;
+            //fragment.book=book;
             //category eklenmedi
             return fragment;
         } else if (position == 3) {
             AboutFragment fragment = new AboutFragment();
-            fragment.bookName=bookName;
-            fragment.bookUrl=bookUrl;
-            fragment.author=author;
-            fragment.imageUrl=imageUrl;
+
             return fragment;
         }
         return null;

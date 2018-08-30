@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 public class AboutFragment extends Fragment {
     DatabaseReference dbref;
     String result;
+    public Book book;
     public class ImageDownloader extends AsyncTask<String, Void, Bitmap>{
 
         @Override
@@ -72,13 +73,6 @@ public class AboutFragment extends Fragment {
         return null;
 
     }
-    public String bookName;
-    public String imageUrl;
-    public String about;
-    public String author;
-    public String bookUrl;
-    public String categoryName;
-    public int position;
 
     public Map<String,String> letterMap=new HashMap<String, String>();
     public String converter(String word){
@@ -174,15 +168,15 @@ public class AboutFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.about_book, container, false);
         dbref = FirebaseDatabase.getInstance().getReference();
-        dbref.child(categoryName).child(String.valueOf(position)).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (!snapshot.child("about").getValue().equals("")) {
-                    about = (String)snapshot.child("about").getValue();
+                    book.setAbout((String)snapshot.child("about").getValue());
                 } else {
                     AboutFragment.DownloadTask task = new AboutFragment.DownloadTask();
                     try {
-                        result = task.execute(bookUrl).get();
+                        result = task.execute(book.getBookUrl()).get();
                         Log.i("Contents of URL", result);
                         String[] splitResult1 = result.split("<div id=\"tab1\" class=\"tab-content clearfix selected\">");
                         String[] splitResult = splitResult1[1].split("<div id=\"tab3\" class=\"tab-content clearfix\">");
@@ -196,14 +190,14 @@ public class AboutFragment extends Fragment {
                             aboutBook += "\n\n\t";
                         }
 
-                        about = converter(aboutBook);
+                        book.setAbout(converter(aboutBook));
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
-                    dbref.child(categoryName).child(String.valueOf(position)).child("about").setValue(about);
+                    dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).child("about").setValue(book.getAbout());
 
 
                 }
@@ -220,26 +214,26 @@ public class AboutFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         dbref = FirebaseDatabase.getInstance().getReference();
-        dbref.child(categoryName).child(String.valueOf(position)).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (!snapshot.child("about").getValue().equals("")) {
-                    about = (String)snapshot.child("about").getValue();
+                    book.setAbout((String)snapshot.child("about").getValue());
                     TextView textView = (TextView)view.findViewById(R.id.book_name);
-                    textView.setText(bookName);
+                    textView.setText(book.getBookName());
                     textView=(TextView)view.findViewById(R.id.book_author);
-                    textView.setText(author);
+                    textView.setText(book.getAuthor());
                     textView=(TextView)view.findViewById(R.id.book_about);
-                    textView.setText(about);
+                    textView.setText(book.getAbout());
                     textView=view.findViewById(R.id.about);
                     textView.setText("Hakkında:");
                     ImageView iconView=(ImageView) view.findViewById(R.id.book_cover);
-                    iconView.setImageBitmap(downloadImage(iconView,imageUrl));
+                    iconView.setImageBitmap(downloadImage(iconView,book.getImageUrl()));
                     iconView.setVisibility(View.VISIBLE);
                 } else {
                     AboutFragment.DownloadTask task = new AboutFragment.DownloadTask();
                     try {
-                        result = task.execute(bookUrl).get();
+                        result = task.execute(book.getBookUrl()).get();
                         Log.i("Contents of URL", result);
                         String[] splitResult1 = result.split("<div id=\"tab1\" class=\"tab-content clearfix selected\">");
                         String[] splitResult = splitResult1[1].split("<div id=\"tab3\" class=\"tab-content clearfix\">");
@@ -253,24 +247,24 @@ public class AboutFragment extends Fragment {
                             aboutBook += "\n\n\t";
                         }
 
-                        about = converter(aboutBook);
+                        book.setAbout(converter(aboutBook));
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
-                    dbref.child(categoryName).child(String.valueOf(position)).child("about").setValue(about);
+                    dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).child("about").setValue(book.getAbout());
                     TextView textView = (TextView)view.findViewById(R.id.book_name);
-                    textView.setText(bookName);
+                    textView.setText(book.getBookName());
                     textView=(TextView)view.findViewById(R.id.book_author);
-                    textView.setText(author);
+                    textView.setText(book.getAuthor());
                     textView=(TextView)view.findViewById(R.id.book_about);
-                    textView.setText(about);
+                    textView.setText(book.getAbout());
                     textView=view.findViewById(R.id.about);
                     textView.setText("Hakkında:");
                     ImageView iconView=(ImageView) view.findViewById(R.id.book_cover);
-                    iconView.setImageBitmap(downloadImage(iconView,imageUrl));
+                    iconView.setImageBitmap(downloadImage(iconView,book.getImageUrl()));
                     iconView.setVisibility(View.VISIBLE);
 
 

@@ -25,12 +25,13 @@ public class BookActivity extends AppCompatActivity {
         // Create an adapter that knows which fragment should be shown on each page
         BookCategoryAdapter adapter = new BookCategoryAdapter(this, getSupportFragmentManager());
         Intent intent = getIntent();
-        adapter.setAuthor(intent.getStringExtra("authorName"));
-        adapter.setBookUrl(intent.getStringExtra("bookUrl"));
-        adapter.setBookName(intent.getStringExtra("bookName"));
-        adapter.setImageUrl(intent.getStringExtra("imageUrl"));
-        adapter.setCategoryName(intent.getStringExtra("categoryName"));
-        adapter.setPosition(intent.getIntExtra("position",0));
+        adapter.getBook().setAuthor(intent.getStringExtra("authorName"));
+        adapter.getBook().setBookName(intent.getStringExtra("bookName"));
+        adapter.getBook().setBookUrl(intent.getStringExtra("bookUrl"));
+        adapter.getBook().setAbout("");
+        adapter.getBook().setCategory(new Category(intent.getStringExtra("categoryName"),R.color.bluee));
+        adapter.getBook().setImageUrl(intent.getStringExtra("imageUrl"));
+        adapter.getBook().setPosition(intent.getIntExtra("position",0));
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);

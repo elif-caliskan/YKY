@@ -1,11 +1,22 @@
 package com.example.elifcaliskan.yky;
 
 public class Book {
-    String bookName;
-    String imageUrl;
-    String author;
-    String bookUrl;
-    Category category;
+    private String bookName;
+    private String imageUrl;
+    private String author;
+    private String bookUrl;
+    private Category category;
+    private Information information;
+
+
+    public Information getInformation() {
+        return information;
+    }
+
+    public void setInformation(Information information) {
+        this.information = information;
+    }
+
 
     public String getAbout() {
         return about;
@@ -15,8 +26,17 @@ public class Book {
         this.about = about;
     }
 
-    String about;
-    int position;
+    private String about;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    private int position;
 
 
     public Category getCategory() {
@@ -44,7 +64,15 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
-
+    public Book(){
+        this.bookName="";
+        this.about="";
+        this.position=0;
+        this.category=new Category("",R.color.colorPrimary);
+        this.bookUrl="";
+        this.imageUrl="";
+        this.information=new Information();
+    }
 
     public Book(String bookName,String imageUrl,String author,String bookUrl,Category category,String about){
         this.bookName=bookName;
@@ -53,6 +81,7 @@ public class Book {
         this.bookUrl=bookUrl;
         this.category=category;
         this.about=about;
+        this.information=new Information();
     }
 
     public String getBookName() {
