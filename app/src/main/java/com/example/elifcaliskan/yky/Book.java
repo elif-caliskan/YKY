@@ -1,21 +1,24 @@
 package com.example.elifcaliskan.yky;
 
+import java.util.HashMap;
+
 public class Book {
     private String bookName;
     private String imageUrl;
     private String author;
     private String bookUrl;
     private Category category;
-    private Information information;
 
-
-    public Information getInformation() {
+    public HashMap<String, String> getInformation() {
         return information;
     }
 
-    public void setInformation(Information information) {
+    public void setInformation(HashMap<String, String> information) {
         this.information = information;
     }
+
+    private HashMap<String,String> information;
+
 
 
     public String getAbout() {
@@ -71,7 +74,6 @@ public class Book {
         this.category=new Category("",R.color.colorPrimary);
         this.bookUrl="";
         this.imageUrl="";
-        this.information=new Information();
     }
 
     public Book(String bookName,String imageUrl,String author,String bookUrl,Category category,String about){
@@ -81,7 +83,6 @@ public class Book {
         this.bookUrl=bookUrl;
         this.category=category;
         this.about=about;
-        this.information=new Information();
     }
 
     public String getBookName() {
@@ -96,7 +97,7 @@ public class Book {
         return imageUrl;
     }
 
-    public void setImageUrl(String bookURL) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

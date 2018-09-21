@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="LovelyView">
-        <attr name="containerColor" format="color" />
-        <attr name="containerLabel" format="string"></attr>
-        <attr name="labelColor" format="color"></attr>
+    <declare-styleable name="info_list">
+        <attr name="propertyName" format="string" />
+        <attr name="realProperty" format="string"/>
     </declare-styleable>
 </resources>

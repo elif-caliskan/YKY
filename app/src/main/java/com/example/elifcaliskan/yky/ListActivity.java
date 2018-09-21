@@ -2,6 +2,7 @@ package com.example.elifcaliskan.yky;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,12 +12,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,6 +48,8 @@ public class ListActivity extends AppCompatActivity {
     int position;
     String result;
     DatabaseReference dbref;
+    FirebaseStorage storage;
+    StorageReference storageReference;
     ArrayList<Book> books;
     ArrayList<String> imageUrls = new ArrayList<String>();
     ArrayList<String> bookUrls = new ArrayList<String>();
@@ -143,6 +153,8 @@ public class ListActivity extends AppCompatActivity {
         books = new ArrayList<Book>();
 
         dbref=FirebaseDatabase.getInstance().getReference();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         dbref.child(categoryName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -207,6 +219,8 @@ public class ListActivity extends AppCompatActivity {
                             name=name.replace("[","5");
                             name=name.replace("]","6");
                             bookMap.put(name, book);
+
+
                         }
                         dbref.child(categoryName).setValue(books);
 
@@ -244,5 +258,39 @@ public class ListActivity extends AppCompatActivity {
 
 
     }
+    /*private void uploadImage(String filePath) {
+
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference ref = storageReference.child("Photos").child(filePath);
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ListActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ListActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
+    }*/
 
 }

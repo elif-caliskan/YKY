@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res/com.example.elifcaliskan.yky"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:alpha="1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="20dp"
+    >
+
+    <TextView
+        android:id="@+id/real_property"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/property_name"
+        android:gravity="right"
+        android:padding="10dp"
+        android:text="Real"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/property_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Kategori:"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

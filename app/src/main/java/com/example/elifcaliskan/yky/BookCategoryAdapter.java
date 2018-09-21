@@ -33,7 +33,7 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
             fragment.book=book;
             return fragment;
         } else if (position == 1) {
-            AboutFragment fragment = new AboutFragment();
+            InfoFragment fragment = new InfoFragment();
             fragment.book=book;
             return fragment;
         } else if (position == 2) {
