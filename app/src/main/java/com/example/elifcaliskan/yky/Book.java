@@ -74,6 +74,7 @@ public class Book {
         this.category=new Category("",R.color.colorPrimary);
         this.bookUrl="";
         this.imageUrl="";
+        this.information=new HashMap<String, String>();
     }
 
     public Book(String bookName,String imageUrl,String author,String bookUrl,Category category,String about){
@@ -83,6 +84,7 @@ public class Book {
         this.bookUrl=bookUrl;
         this.category=category;
         this.about=about;
+        this.information=new HashMap<String,String>();
     }
 
     public String getBookName() {

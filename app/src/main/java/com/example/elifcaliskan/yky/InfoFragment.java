@@ -176,28 +176,29 @@ public class InfoFragment extends Fragment {
                     info=(HashMap<String,String>)snapshot.child("information").getValue();
 
                 } else {
+                    info=new HashMap<String, String>();
                     InfoFragment.DownloadTask task = new InfoFragment.DownloadTask();
                     try {
                         result = task.execute(book.getBookUrl()).get();
                         Log.i("Contents of URL", result);
 
-                        Pattern p = Pattern.compile("<strong>(.*?)</li>");
+                        Pattern p = Pattern.compile("<strong>((?s).*?)</li>");
                         Matcher m = p.matcher(result);
 
                         while (m.find()) {
                             String x = m.group(1);
                             String first = x.substring(0,x.indexOf("<"));
                             String k="";
+                            first=converter(first);
                             if(x.contains("title=")){
-                                Pattern p1 = Pattern.compile("title='(.*?)'>");
-                                Matcher m1 = p1.matcher(x);
-                                k=m1.group(1);
+                                x=x.substring(x.indexOf("title")+6,x.indexOf("</a>"));
+                                k=x.substring(x.indexOf(">")+1);
                             }
                             else{
-                                Pattern p1 = Pattern.compile("<br />(.*?)</li>");
-                                Matcher m1 = p1.matcher(x);
-                                k=m1.group(1);
+                                k=x.substring(x.indexOf("<br />")+6).trim();
+
                             }
+                            k=converter(k);
                             info.put(first,k);
                         }
 

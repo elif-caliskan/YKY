@@ -37,16 +37,16 @@ public class BookCategoryAdapter extends FragmentPagerAdapter {
             fragment.book=book;
             return fragment;
         } else if (position == 2) {
-            TadımlıkFragment fragment = new TadımlıkFragment();
-            //fragment.book=book;
+            AboutFragment fragment = new AboutFragment();
+            fragment.book=book;
             //category eklenmedi
             return fragment;
-        } else if (position == 3) {
+        } else  {
             AboutFragment fragment = new AboutFragment();
-
+            fragment.book=book;
             return fragment;
         }
-        return null;
+
     }
 
     @Override
