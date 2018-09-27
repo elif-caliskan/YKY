@@ -5,6 +5,7 @@
     <dimen name="about_book_icon_width">200dp</dimen>
     <dimen name="about_book_icon_height">250dp</dimen>
     <dimen name="about_book_name_width">240dp</dimen>
+    <dimen name="info_height">170dp</dimen>
 
 
 </resources>

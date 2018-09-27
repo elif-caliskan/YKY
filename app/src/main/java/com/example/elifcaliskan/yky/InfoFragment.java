@@ -31,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -165,9 +166,9 @@ public class InfoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.info_book, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+        info=new HashMap<String, String>();
+        final View rootView = inflater.inflate(R.layout.info_book, container, false);
         dbref = FirebaseDatabase.getInstance().getReference();
         dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -211,6 +212,15 @@ public class InfoFragment extends Fragment {
                     }
                     dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).child("information").setValue(book.getInformation());
                     }
+                    List<String> list = new ArrayList<String>(info.keySet());
+                    for(int i=0;i<list.size();i++){
+                        Information information=(Information) rootView.findViewWithTag(Integer.toString(i+1));
+                        TextView text = (TextView)information.findViewById(R.id.property_name);
+                        text.setText(list.get(i));
+                        text=(TextView)information.findViewById(R.id.real_property);
+                        text.setText(info.get(list.get(i)));
+                        information.setVisibility(View.VISIBLE);
+                    }
             }
 
             @Override
@@ -223,57 +233,18 @@ public class InfoFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        dbref = FirebaseDatabase.getInstance().getReference();
-        dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.child("information").getValue()!=null) {
-                    info=(HashMap<String,String>)snapshot.child("information").getValue();
+        TextView text=(TextView)view.findViewById(R.id.book_name);
+        text.setText(book.getBookName());
 
-                } else {
-                    InfoFragment.DownloadTask task = new InfoFragment.DownloadTask();
-                    try {
-                        result = task.execute(book.getBookUrl()).get();
-                        Log.i("Contents of URL", result);
+        List<String> list = new ArrayList<String>(info.keySet());
+        for (int i = 0; i < list.size(); i++) {
+                Information information = (Information) view.findViewWithTag(Integer.toString(i+1));
+                TextView textView = (TextView) information.findViewById(R.id.property_name);
+                textView.setText(list.get(i));
+                textView = (TextView) information.findViewById(R.id.real_property);
+                textView.setText(info.get(list.get(i)));
 
-                        Pattern p = Pattern.compile("<strong>(.*?)</li>");
-                        Matcher m = p.matcher(result);
-
-                        while (m.find()) {
-                            String x = m.group(1);
-                            String first = x.substring(0,x.indexOf("<"));
-                            String k="";
-                            if(x.contains("title=")){
-                                Pattern p1 = Pattern.compile("title='(.*?)'>");
-                                Matcher m1 = p1.matcher(x);
-                                k=m1.group(1);
-                            }
-                            else{
-                                Pattern p1 = Pattern.compile("<br />(.*?)</li>");
-                                Matcher m1 = p1.matcher(x);
-                                k=m1.group(1);
-                            }
-                            info.put(first,k);
-                        }
-
-                        book.setInformation(info);
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                    dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).child("about").setValue(book.getAbout());
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+        }
 
     }
 
