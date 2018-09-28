@@ -19,7 +19,7 @@
             android:padding="20dp"
             android:text="Book Name"
             android:textColor="@color/darkBlue"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:layout_alignParentStart="true" />
 
         <com.example.elifcaliskan.yky.Information

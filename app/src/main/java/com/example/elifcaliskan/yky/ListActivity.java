@@ -210,6 +210,7 @@ public class ListActivity extends AppCompatActivity {
 
                         for (int i = 0; i < bookNames.size(); i++) {
                             Book book = new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i),new Category(categoryName,color), "");
+                            book.setTadımlık("");
                             books.add(book);
                             String name=bookNames.get(i);
                             name=name.replace(".","1"); //1i değiştir

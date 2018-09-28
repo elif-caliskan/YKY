@@ -9,6 +9,16 @@ public class Book {
     private String bookUrl;
     private Category category;
 
+
+    public String getTadımlık() {
+        return tadımlık;
+    }
+
+    public void setTadımlık(String tadımlık) {
+        this.tadımlık = tadımlık;
+    }
+
+    private String tadımlık;
     public HashMap<String, String> getInformation() {
         return information;
     }
@@ -75,6 +85,7 @@ public class Book {
         this.bookUrl="";
         this.imageUrl="";
         this.information=new HashMap<String, String>();
+        this.tadımlık="";
     }
 
     public Book(String bookName,String imageUrl,String author,String bookUrl,Category category,String about){
