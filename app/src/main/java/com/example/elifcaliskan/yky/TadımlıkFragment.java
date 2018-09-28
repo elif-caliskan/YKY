@@ -178,29 +178,34 @@ public class TadımlıkFragment extends Fragment {
                     try {
                         result = task.execute(book.getBookUrl()).get();
                         Log.i("Contents of URL", result);
-                        String[] splitResult1 = result.split("<div id=\"tab3\" class=\"tab-content clearfix\">");
-                        String[] splitResult = splitResult1[1].split("<div id=\"tab9\" class=\"tab-content clearfix\">");
+                        if (result.contains("<div id=\"tab3\" class=\"tab-content clearfix\">")) {
+                            String[] splitResult1 = result.split("<div id=\"tab3\" class=\"tab-content clearfix\">");
+                            String[] splitResult = splitResult1[1].split("<div id=\"tab9\" class=\"tab-content clearfix\">");
 
-                        Pattern p = Pattern.compile("<p>(.*?)</p>");
-                        Matcher m = p.matcher(splitResult[0]);
-                        String tadımlık = "\t";
+                            Pattern p = Pattern.compile("<p>(.*?)</p>");
+                            Matcher m = p.matcher(splitResult[0]);
+                            String tadımlık = "\t";
 
-                        while (m.find()) {
-                            tadımlık += m.group(1);
-                            tadımlık += "\n\n\t";
+                            while (m.find()) {
+                                tadımlık += m.group(1);
+                                tadımlık += "\n\n\t";
+                            }
+
+                            book.setTadımlık(converter(tadımlık));
                         }
-
-                        book.setTadımlık(converter(tadımlık));
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                    dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).child("tadımlık").setValue(book.getTadımlık());
+                        else{
+                            book.setTadımlık("Kitabın tadımlık bölümü bulunmamaktadır.");
+                        }
+                        } catch(InterruptedException e){
+                            e.printStackTrace();
+                        } catch(ExecutionException e){
+                            e.printStackTrace();
+                        }
+                        dbref.child(book.getCategory().getCategoryName()).child(String.valueOf(book.getPosition())).child("tadımlık").setValue(book.getTadımlık());
 
 
                 }
+
                 TextView textView=(TextView)rootView.findViewById(R.id.book_about);
                 textView.setText(book.getTadımlık());
             }
