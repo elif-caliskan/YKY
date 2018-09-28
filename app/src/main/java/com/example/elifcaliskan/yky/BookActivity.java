@@ -29,7 +29,7 @@ public class BookActivity extends AppCompatActivity {
         adapter.getBook().setBookName(intent.getStringExtra("bookName"));
         adapter.getBook().setBookUrl(intent.getStringExtra("bookUrl"));
         adapter.getBook().setAbout("");
-        adapter.getBook().setCategory(new Category(intent.getStringExtra("categoryName"),R.color.bluee));
+        adapter.getBook().setCategory(new Category(intent.getStringExtra("categoryName"),R.color.bluee,""));
         adapter.getBook().setImageUrl(intent.getStringExtra("imageUrl"));
         adapter.getBook().setPosition(intent.getIntExtra("position",0));
 

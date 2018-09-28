@@ -153,145 +153,109 @@ public class ListActivity extends AppCompatActivity {
         books = new ArrayList<Book>();
 
         dbref=FirebaseDatabase.getInstance().getReference();
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-
         dbref.child(categoryName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.getValue()!=null) {
-                    bookMap.clear();
-                    books.clear();
-                    ArrayList<HashMap<String,String>> bookObject=(ArrayList<HashMap<String,String>>)snapshot.getValue();
-                    for(int i=0;i<bookObject.size();i++){
-                        books.add(new Book(bookObject.get(i).get("bookName"),bookObject.get(i).get("imageUrl"),bookObject.get(i).get("author"),bookObject.get(i).get("bookUrl"),new Category(categoryName,color),bookObject.get(i).get("about")));
+                if (snapshot.getValue() != null) {
+                        bookMap.clear();
+                        books.clear();
+                        ArrayList<HashMap<String, String>> bookObject = (ArrayList<HashMap<String, String>>) snapshot.getValue();
+                        for (int i = 0; i < bookObject.size(); i++) {
+                            books.add(new Book(bookObject.get(i).get("bookName"), bookObject.get(i).get("imageUrl"), bookObject.get(i).get("author"), bookObject.get(i).get("bookUrl"), new Category(categoryName, color, ""), bookObject.get(i).get("about")));
 
+                        }
+                    } else {
+                        DownloadTask task = new DownloadTask();
+                        try {
+                            result = task.execute(url).get();
+                            if (result != null)
+                                Log.i("Contents of URL", result);
+                            String[] splitResult1 = result.split("-list clearfix\">");
+                            String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
+
+                            Pattern p = Pattern.compile("src=\"(.*?)\"");
+                            Matcher m = p.matcher(splitResult[0]);
+
+                            while (m.find()) {
+                                imageUrls.add(m.group(1));
+                            }
+
+                            p = Pattern.compile("<a href=\"(.*?)\" title=");
+                            m = p.matcher(splitResult[0]);
+
+                            while (m.find()) {
+                                bookUrls.add("http://kitap.ykykultur.com.tr" + m.group(1));
+                            }
+
+                            p = Pattern.compile("<h2>(.*?)</h2>");
+                            m = p.matcher(splitResult[0]);
+
+                            while (m.find()) {
+                                String name = converter(m.group(1));
+                                bookNames.add(name);
+
+                            }
+                            p = Pattern.compile("<h3>(.*?)</h3>");
+                            m = p.matcher(splitResult[0]);
+
+                            while (m.find()) {
+                                String name = converter(m.group(1));
+                                authors.add(name);
+
+                            }
+
+                            for (int i = 0; i < bookNames.size(); i++) {
+                                Book book = new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i), new Category(categoryName, color, ""), "");
+                                book.setTadımlık("");
+                                books.add(book);
+                                String name = bookNames.get(i);
+                                name = name.replace(".", "1"); //1i değiştir
+                                name = name.replace("/", "2");
+                                name = name.replace("#", "3");
+                                name = name.replace("$", "4");
+                                name = name.replace("[", "5");
+                                name = name.replace("]", "6");
+                                bookMap.put(name, book);
+
+
+                            }
+                            dbref.child(categoryName).setValue(books);
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    adapter = new BookAdapter(ListActivity.this, books, color, android.R.color.white);
+                    ListView listView = (ListView) findViewById(R.id.book_list);
+                    listView.setAdapter(adapter);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(ListActivity.this, BookActivity.class);
+                            intent.putExtra("bookName", books.get(position).getBookName());
+                            intent.putExtra("imageUrl", books.get(position).getImageUrl());
+                            intent.putExtra("authorName", books.get(position).getAuthor());
+                            intent.putExtra("bookUrl", books.get(position).getBookUrl());
+                            intent.putExtra("categoryName", books.get(position).getCategory().getCategoryName());
+                            intent.putExtra("position", position);
+                            startActivity(intent);
+                        }
+                    });
+
                 }
-                else{
-                    DownloadTask task = new DownloadTask();
-                    try {
-                        result = task.execute(url).get();
-                        if (result != null)
-                            Log.i("Contents of URL", result);
-                        String[] splitResult1 = result.split("-list clearfix\">");
-                        String[] splitResult = splitResult1[1].split("<div class=\"footer-container\">");
 
-                        Pattern p = Pattern.compile("src=\"(.*?)\"");
-                        Matcher m = p.matcher(splitResult[0]);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        while (m.find()) {
-                            imageUrls.add(m.group(1));
-                        }
-
-                        p = Pattern.compile("<a href=\"(.*?)\" title=");
-                        m = p.matcher(splitResult[0]);
-
-                        while (m.find()) {
-                            bookUrls.add("http://kitap.ykykultur.com.tr" + m.group(1));
-                        }
-
-                        p = Pattern.compile("<h2>(.*?)</h2>");
-                        m = p.matcher(splitResult[0]);
-
-                        while (m.find()) {
-                            String name = converter(m.group(1));
-                            bookNames.add(name);
-
-                        }
-                        p = Pattern.compile("<h3>(.*?)</h3>");
-                        m = p.matcher(splitResult[0]);
-
-                        while (m.find()) {
-                            String name = converter(m.group(1));
-                            authors.add(name);
-
-                        }
-
-                        for (int i = 0; i < bookNames.size(); i++) {
-                            Book book = new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i),new Category(categoryName,color), "");
-                            book.setTadımlık("");
-                            books.add(book);
-                            String name=bookNames.get(i);
-                            name=name.replace(".","1"); //1i değiştir
-                            name=name.replace("/","2");
-                            name=name.replace("#","3");
-                            name=name.replace("$","4");
-                            name=name.replace("[","5");
-                            name=name.replace("]","6");
-                            bookMap.put(name, book);
-
-
-                        }
-                        dbref.child(categoryName).setValue(books);
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
                 }
-                adapter = new BookAdapter(ListActivity.this, books, color,android.R.color.white);
-                ListView listView = (ListView) findViewById(R.id.book_list);
-                listView.setAdapter(adapter);
+            });
 
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(ListActivity.this, BookActivity.class);
-                        intent.putExtra("bookName",books.get(position).getBookName());
-                        intent.putExtra("imageUrl", books.get(position).getImageUrl());
-                        intent.putExtra("authorName",books.get(position).getAuthor());
-                        intent.putExtra("bookUrl",books.get(position).getBookUrl());
-                        intent.putExtra("categoryName",books.get(position).getCategory().getCategoryName());
-                        intent.putExtra("position",position);
-                        startActivity(intent);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        }
 
 
     }
-    /*private void uploadImage(String filePath) {
 
-        if(filePath != null)
-        {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
 
-            StorageReference ref = storageReference.child("Photos").child(filePath);
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(ListActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(ListActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
-        }
-    }*/
-
-}

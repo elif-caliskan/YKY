@@ -3,12 +3,19 @@ package com.example.elifcaliskan.yky;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +30,8 @@ import java.util.regex.Pattern;
 
 public class SubCategoryActivity extends AppCompatActivity{
     int color;
+    String category;
+    DatabaseReference dbref;
     int[] colors={R.color.red,R.color.lightRed,
             R.color.pink, R.color.lightPink,
             R.color.purple,R.color.lightPurple,
@@ -129,65 +138,92 @@ public class SubCategoryActivity extends AppCompatActivity{
         imageView.setImageResource(R.drawable.books);
         Intent intent = getIntent();
         color = intent.getIntExtra("color", R.color.blue);
-        final ArrayList<Book> books = new ArrayList<Book>();
 
-        SubCategoryActivity.DownloadTask task = new SubCategoryActivity.DownloadTask();
-        String result;
-        try {
-            result = task.execute("http://kitap.ykykultur.com.tr/kitaplar").get();
-            if (result != null)
-                Log.i("Contents of URL", result);
-            String[] splitResult1 = result.split("<div class=\"acc-content\">");
-            String[] splitResult = splitResult1[1].split("</ul>");
+        dbref = FirebaseDatabase.getInstance().getReference();
 
-            Pattern p = Pattern.compile("<li><a href=\"/(.*?)\" title=");
-            Matcher m = p.matcher(splitResult[0]);
-
-            while (m.find()) {
-
-                categoryUrls.add("http://kitap.ykykultur.com.tr/"+m.group(1));
-            }
-
-            p = Pattern.compile("title=\"(.*?)\">");
-            m = p.matcher(splitResult[0]);
-            int i=0;
-            while (m.find()) {
-                String name=m.group(1);
-                if(name.contains("class")){
-                    name=" -> "+name.substring(0,name.indexOf("\""));
-                    name=converter(name);
-                    categories.add(new Category(name,colors[i-1]));
-                }
-                else{
-                    name=converter(name);
-                    categories.add(new Category(name,colors[i]));
-                    i+=2;
-                }
-
-            }
-
-            /*for (int i = 0; i < bookNames.size(); i++) {
-                books.add(new Book(bookNames.get(i), imageUrls.get(i), authors.get(i), bookUrls.get(i)));
-            } renkler için düşünüleilir*/
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        CategoryAdapter adapter = new CategoryAdapter(this, categories,android.R.color.white);
-        ListView listView = (ListView) findViewById(R.id.list);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dbref.child("KONU DİZİNİ").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SubCategoryActivity.this, ListActivity.class);
-                intent.putExtra("color",categories.get(position).getCategoryColor());
-                intent.putExtra("url", categoryUrls.get(position));
-                startActivity(intent);
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+
+                    ArrayList<HashMap<String, String>> bookObject = (ArrayList<HashMap<String, String>>) snapshot.getValue();
+                    for (int i = 0; i < bookObject.size(); i++) {
+                        categories.add(new Category(bookObject.get(i).get("categoryName"), color,""));
+                        int newColor=snapshot.child(String.valueOf(i)).child("categoryColor").getValue(Integer.class);
+                        categories.get(i).setCategoryColor(newColor);
+                        String x=snapshot.child(String.valueOf(i)).child("categoryUrl").getValue(String.class);
+                        categories.get(i).setCategoryUrl(x);
+                    }
+                } else {
+                    SubCategoryActivity.DownloadTask task = new SubCategoryActivity.DownloadTask();
+                    String result;
+                    try {
+                        result = task.execute("http://kitap.ykykultur.com.tr/kitaplar").get();
+                        if (result != null)
+                            Log.i("Contents of URL", result);
+                        String[] splitResult1 = result.split("<div class=\"acc-content\">");
+                        String[] splitResult = splitResult1[1].split("</ul>");
+
+                        Pattern p = Pattern.compile("<li><a href=\"/(.*?)\" title=");
+                        Matcher m = p.matcher(splitResult[0]);
+
+                        while (m.find()) {
+
+                            categoryUrls.add("http://kitap.ykykultur.com.tr/" + m.group(1));
+                        }
+
+                        p = Pattern.compile("title=\"(.*?)\">");
+                        m = p.matcher(splitResult[0]);
+                        int i = 0;
+                        int k=0;
+                        while (m.find()) {
+                            String name = m.group(1);
+                            if (name.contains("class")) {
+                                name = " -> " + name.substring(0, name.indexOf("\""));
+                                name = converter(name);
+                                categories.add(new Category(name, colors[i - 1],categoryUrls.get(k)));
+                            } else {
+                                name = converter(name);
+                                categories.add(new Category(name, colors[i],categoryUrls.get(k)));
+                                i += 2;
+                            }
+                            k++;
+                        }
+
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    dbref.child("KONU DİZİNİ").setValue(categories);
+                }
+                CategoryAdapter adapter = new CategoryAdapter(SubCategoryActivity.this, categories, android.R.color.white);
+                ListView listView = (ListView) findViewById(R.id.list);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(SubCategoryActivity.this, ListActivity.class);
+                        intent.putExtra("color", categories.get(position).getCategoryColor());
+                        intent.putExtra("url", categories.get(position).getCategoryUrl());
+                        intent.putExtra("categoryName",categories.get(position).getCategoryName());
+                        startActivity(intent);
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
+
     }
 
 }

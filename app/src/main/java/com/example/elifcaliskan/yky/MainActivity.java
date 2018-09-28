@@ -20,12 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        categories.add(new Category("A-Z",R.color.darkBlue));
-        categories.add(new Category("KONU DİZİNİ",R.color.darkerBlue2));
-        categories.add(new Category("TEKRAR BASIMLAR",R.color.darkerBlue));
-        categories.add(new Category("YENİ ÇIKANLAR",R.color.blue));
-        categories.add(new Category("ÇOK SATANLAR",R.color.lightBlue));
-        categories.add(new Category("100 TEMEL ESERDE YKY KİTAPLARI",R.color.lightestBlue));
+        categories.add(new Category("A-Z",R.color.darkBlue,"http://kitap.ykykultur.com.tr/kitaplar/" + pos[0]));
+        categories.add(new Category("KONU DİZİNİ",R.color.darkerBlue2,"http://kitap.ykykultur.com.tr/kitaplar/" + pos[1]));
+        categories.add(new Category("TEKRAR BASIMLAR",R.color.darkerBlue,"http://kitap.ykykultur.com.tr/kitaplar/" + pos[2]));
+        categories.add(new Category("YENİ ÇIKANLAR",R.color.blue,"http://kitap.ykykultur.com.tr/kitaplar/" + pos[3]));
+        categories.add(new Category("ÇOK SATANLAR",R.color.lightBlue,"http://kitap.ykykultur.com.tr/kitaplar/" + pos[4]));
+        categories.add(new Category("100 TEMEL ESERDE YKY KİTAPLARI",R.color.lightestBlue,"http://kitap.ykykultur.com.tr/kitaplar/" + pos[5]));
 
         ListView listView = (ListView) findViewById(R.id.list);
         ImageView imageView=findViewById(R.id.imageView);
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=1) {
                     Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                    intent.putExtra("url", "http://kitap.ykykultur.com.tr/kitaplar/" + pos[position]);
+                    intent.putExtra("url", categories.get(position).getCategoryUrl());
                     intent.putExtra("categoryName",categories.get(position).getCategoryName());
                     intent.putExtra("color", categories.get(position).getCategoryColor());
                     startActivity(intent);

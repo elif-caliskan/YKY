@@ -81,7 +81,7 @@ public class Book {
         this.bookName="";
         this.about="";
         this.position=0;
-        this.category=new Category("",R.color.colorPrimary);
+        this.category=new Category("",R.color.colorPrimary,"");
         this.bookUrl="";
         this.imageUrl="";
         this.information=new HashMap<String, String>();
