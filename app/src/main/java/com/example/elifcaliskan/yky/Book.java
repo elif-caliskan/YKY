@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Book {
     private String bookName;
-    private String imageUrl1;
+    private String imageUrl;
     private String author;
     private String bookUrl;
     private Category category;
